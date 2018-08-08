@@ -37,18 +37,13 @@ void dijkstra(int s){
 		que.pop();
 
 		int from = p.second;
-		if(d[p.second] < p.first)continue;// 此时这个节点被更新了更小的值，舍弃曾经的最小值
-
+		if(d[from] < p.first)continue;// 此时这个节点被更新了更小的值，舍弃曾经的最小值45
 		for(int i=0;i<arr[from].size();i++){
 			edge eg = arr[from][i];
 			if(d[eg.to] > d[from] + eg.cost){
 				d[eg.to] = d[from]+eg.cost;
 				que.push(make_pair(d[eg.to],eg.to));
 			}
-			// if(d[arr[from][i].to] > d[from] + arr[from][i].cost){
-			// 	d[arr[from][i].to] = d[from]+arr[from][i].cost;
-			// 	que.push(make_pair(d[arr[from][i].to],d[arr[from][i].to]));
-			// }
 		}
 	}
 }
