@@ -60,14 +60,13 @@ void getFail(){
 
 void findnum(int index){
 	int a[1005];
-	for (int i=0; i<x; i++){
-		if(index == 0)a[i] = big_hash[index+x][i];
-		else a[i] = (big_hash[index+x][i] - (big_hash[index-1][i] * power[x+1])%mod + mod) % mod;
+	for (int i=0; i<m; i++){
+		if(index == 0)a[i] = big_hash[index+x-1][i];
+		else a[i] = (big_hash[index+x-1][i] - (big_hash[index-1][i] * power[x])%mod + mod) % mod;
 	}
 
 	int j = 0;
-	int ans = 0;
-	for (int i=0; i<x; i++){
+	for (int i=0; i<m; i++){
 		while(j && small_hash[j] != a[i])j = f[j];
 		if(small_hash[j] == a[i])j++;
 		if(j == y){
@@ -95,8 +94,10 @@ signed main(){
 				else big_hash[i][j] = ((big_hash[i-1][j]*base)%mod + s[j])%mod;
 			}
 		}
+
+
+
 		cin>>x>>y;
-		memset(small_hash,0,sizeof(small_hash));
 		for (int i=0; i<x; i++){
 			string s;
 			cin>>s;
@@ -105,10 +106,10 @@ signed main(){
 			}
 		}
 
-
 		getFail();
-		for (int i=0; i<n-x; i++){
+		for (int i=0; i<=n-x; i++){
 			findnum(i);
+			// cout<<"--"<<endl;
 		}
 		cout<<ans<<endl;
 

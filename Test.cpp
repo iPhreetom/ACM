@@ -1,65 +1,120 @@
-#include<cstdio>
-#include<cstring>
-#include<iostream>
-// using namespace std;
 
-int t,n,m,x,y,ans;
-unsigned long long hash[1010][1010],mi[1010],p[1010],q[1010],f[1010];
-char s[300];
-void getfail()
-{ int i,j=0;
-  memset(f,0,sizeof(f));
-  for(i=2;i<=y;i++)
-  { while(j && p[i]!=p[j+1])
-     j=f[j];
-    if(p[i]==p[j+1])
-     j++;
-    f[i]=j;
-  }
+#include <stdio.h>
+
+#include <cstring>
+
+#include <iostream>
+
+#include <algorithm>
+
+using namespace std;
+
+
+
+const int maxn = 2e6+10;
+
+char str[maxn];//初始字符串
+
+char s[maxn<<1];//构造的新字符串
+
+int p[maxn<<1]; //以s[i]为中心的最长回文子串的最右端到s[i]的位置的长度
+
+int pos;//记录回文字符串中心位置
+
+
+
+int mannacher(char *ss){
+
+    int len=strlen(ss);
+
+    int t=0;
+
+    s[t++]='@';//防止数组越界
+
+    //构造新字符串
+
+    s[t++]='#';
+
+    for (int i=0; i<len; i++){
+
+        s[t++]=ss[i];
+
+        s[t++]='#';
+
+    }
+
+
+
+    s[t]=0;
+
+    int mx=0,id=0,ans=0;
+
+
+
+    for (int i=0;i<t;i++){
+
+        if (mx>i) p[i]=min(p[2*id-i],mx-i);
+
+        else p[i]=1;
+
+        while(s[i+p[i]]==s[i-p[i]]) p[i]++;
+
+        if (i+p[i]>mx){
+
+            mx=i+p[i];
+
+            id=i;
+
+        }
+
+        if(p[i]-1>ans){
+
+            ans=p[i]-1;
+
+            pos=i;
+
+        }
+
+    }
+
+    return ans; //最长回文串长度
+
 }
-void find(int pos)
-{ int i,j=0;
-  for(i=1;i<=m;i++)
-   q[i]=hash[pos+x][i]-hash[pos][i]*mi[x];
 
-  for(i=1;i<=m;i++)
-  { while(j && q[i]!=p[j+1])
-     j=f[j];
-    if(q[i]==p[j+1])
-     j++;
-    if (j==y)
-    { ans++;
-      j=f[j];
-    }
-  }
-}
-int main()
-{ int i,j;
-  scanf("%d",&t);
-  while(t--)
-  { scanf("%d%d",&n,&m);
-    memset(p,0,sizeof(p));
-    mi[0]=1;ans=0;
-    for(i=1;i<=n;i++)
-    { scanf("%s",s+1);
-      for(j=1;j<=m;j++)
-       hash[i][j]=hash[i-1][j]*2333+s[j];
-      mi[i]=mi[i-1]*2333;
-    }
-    scanf("%d%d",&x,&y);
-    for(i=1;i<=x;i++)
-    { scanf("%s",s+1);
-      for(j=1;j<=y;j++)
-       p[j]=p[j]*2333+s[j];
+
+
+int main(){
+
+    char c,a[2];
+
+    while(~scanf("%s %s",a,str)){
+
+        c=a[0];
+
+        int len=mannacher(str);//字符串s的最长回文子串长度
+
+        if (len<2) printf("No solution!\n");
+
+        else {
+
+            int start=(pos-len+1)/2-1; //最大回文子串开始的位置
+
+            int e=start+len-1;         //最大回文子串结束的位置
+
+            printf("%d %d\n",start,e);
+
+            int diff=c-'a';
+
+            for (int i=start;i<=e;i++)
+
+                (str[i]-'a'>=diff)?printf("%c",str[i]-diff):printf("%c",str[i]+26-diff);
+
+            printf("\n");
+
+        }
+
     }
 
-    for (int i=0; i<=y; i++){
-        std::cout<<p[i]<<' ';
-    }std::cout<<'\n';
+    return 0;
 
-    getfail();
-    for(i=0;i<=n-x;i++)
-     find(i);
-    printf("%d\n",ans);
-  }
 }
