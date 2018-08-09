@@ -1,3 +1,4 @@
+
 #include <vector>
 #include <list>
 #include <map>
@@ -24,36 +25,27 @@
 #include <complex>
 #include <numeric>
 #include <cassert>
-#define int long long
 #define double long double
 using namespace std;
 
+map<string,int> mp;
 int n;
-bool a[51234];
-struct edge{
-	int l;
-	int r;
-	int c;
-	edge(int l,int r,int c){
-		this->l=l;
-		this->r=r;
-		this->c=c;
-	}
-};
-
-vector<edge> arr;
-
-// vector<pair<int,int> > arr;
-int s[51234];
 
 signed main(){
-	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
-	cin>>n;
-	for (int i=0; i<n; i++){
-		int l,r,c;
-		cin>>l>>r>>c;
-		arr.push_back(edge(l,r,c));
+	while(scanf("%d",&n)!=EOF){
+		mp.clear();
+		for (int i=0; i<n; i++){
+		    string a;
+			char ch[35];
+			scanf("%s",ch);
+			a = ch;
+			mp[a]++;
+		}
+		int mx=0;
+		for(map<string,int>::iterator i=mp.begin();i!=mp.end();i++){
+			mx = max(mx,i->second);
+		}
+		printf("%d\n",mx);
 	}
-	
 	return 0;
 }
