@@ -1,6 +1,6 @@
 
 vector<int> f;
-void getFail(string &p){
+void getFail(vector<int> &p){
 	f.resize(p.size()+1);
 	f[0] = 0;
 	f[1] = 0;
@@ -11,7 +11,7 @@ void getFail(string &p){
 	}
 }
 
-void findnum(string &a,string &b){
+void findnum(vector<int> &a,vector<int> &b){
 	getFail(b);
 	int j = 0;
 	int ans = 0;
