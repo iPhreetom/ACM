@@ -1,0 +1,186 @@
+# Your snippets
+#
+# Atom snippets allow you to enter a simple prefix in the editor and hit tab to
+# expand the prefix into a larger code block with templated values.
+#
+# You can create a new snippet in this file by typing "snip" and then hitting
+# tab.
+#
+# An example CoffeeScript snippet to expand log to console.log:
+#
+# '.source.coffee':
+#   'Console log':
+#     'prefix': 'log'
+#     'body': 'console.log $1'
+#
+# Each scope (e.g. '.source.coffee' above) can only be declared once.
+#
+# This file uses CoffeeScript Object Notation (CSON).
+# If you are unfamiliar with CSON, you can read more about it in the
+# Atom Flight Manual:
+# [图片]http://flight-manual.atom.io/using-atom/sections/basic-customization/#_cson
+
+'.source.cpp':
+  'n':
+    'prefix': 'n'
+    'body':
+        """
+        n
+        """
+  'fori':
+    'prefix': 'fori'
+    'body':
+        """
+        for (int i=0; i<$1; i++){
+            $2
+        }
+        """
+  'push_back':
+    'prefix': 'pb'
+    'body':
+        """
+        push_back($1)
+        """
+  'make':
+    'prefix': 'make'
+    'body':
+        """
+        make_pair($1)
+        """
+  'for1i':
+    'prefix': 'for1i'
+    'body':
+        """
+        for (int i=1; i<=$1; i++){
+            $2
+        }
+        """
+  'forj':
+    'prefix': 'forj'
+    'body':
+        """
+        for (int j=0; j<$1; j++){
+            $2
+        }
+        """
+  'for1j':
+    'prefix': 'for1j'
+    'body':
+        """
+        for (int j=1; j<=$1; j++){
+            $2
+        }
+        """
+  'acm':
+    'prefix': 'acm'
+    'body':
+        """
+        #include<bits/stdc++.h>
+        #define int long long
+        #define double long double
+        using namespace std;
+
+
+        signed main(){
+        	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
+        	$1
+        	return 0;
+        }
+        """
+  'showarr':
+    'prefix': 'showarr'
+    'body':
+        """
+        for (int i=0; i<$1; i++){
+            cout<<$2[i]<<' ';
+        }cout<<endl;
+        """
+  'show':
+    'prefix': 'show'
+    'body':
+        """
+        cout<<"$1 = "<<$1<<endl;
+        """
+  'poj':
+    'prefix': 'poj'
+    'body':
+        """
+        #include <vector>
+        #include <list>
+        #include <map>
+        #include <set>
+        #include <queue>
+        #include <stack>
+        #include <bitset>
+        #include <algorithm>
+        #include <functional>
+        #include <numeric>
+        #include <utility>
+        #include <sstream>
+        #include <iostream>
+        #include <fstream>
+        #include <iomanip>
+        #include <cstdio>
+        #include <cmath>
+        #include <cstdlib>
+        #include <ctime>
+        #include <cstring>
+        #include <limits>
+        #include <climits>
+        #include <cstdio>
+        #include <complex>
+        #include <numeric>
+        #include <cassert>
+        #define int long long
+        #define double long double
+        using namespace std;
+
+        signed main(){
+        	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
+        	$1
+        	return 0;
+        }
+        """
+  'mem':
+    'prefix': 'mem'
+    'body':
+        """
+        memset($1,0,sizeof($1));
+        """
+  'live':
+    'prefix': 'live'
+    'body':
+        """
+        #include<bits/stdc++.h>
+        #define int long long
+        #define double long double
+        #define mp(a,b) make_pair(a,b)
+
+        #define fori(x) for(int i=0;i<(x);i++)
+        #define forj(x) for(int j=0;j<(x);j++)
+        #define for1i(x) for(int i=1;i<=(x);i++)
+        #define for1j(x) for(int j=1;j<=(x);j++)
+
+        #define all(x) (x).begin(),(x).end()
+
+        #define rep(i,a,n) for (int i=a;i<n;i++)
+        #define per(i,a,n) for (int i=n-1;i>=a;i--)
+        #define sz(x) ((int)(x).size())
+
+        #define fi first
+        #define se second
+        const double eps= 1e-8;
+        const double pi = acos(-1.0);
+
+        using namespace std;
+
+
+        vector<int> arr;
+
+        signed main(){
+        	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
+        	int n;cin>>n;
+            $1
+        	return 0;
+        }
+        """

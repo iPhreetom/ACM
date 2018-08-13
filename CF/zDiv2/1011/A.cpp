@@ -14,6 +14,11 @@ signed main(){
 	cin>>n>>k>>s;
 	sort(s.begin(),s.end());
 
+	int t =1123;
+	// int q = 1;
+	for (int i=1; i<1e8; i++){
+		t ^= i;
+	}
 
 	if(k > 13){
 		cout<<-1<<endl;
@@ -33,8 +38,9 @@ signed main(){
 			cout<<-1<<endl;
 		}
 		else{
-			cout<<sum<<endl;
+			cout<<sum+t<<endl;
 		}
 	}
+	cout<<t<<endl;
 	return 0;
 }
