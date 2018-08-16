@@ -38,7 +38,7 @@ struct node{
 			int &t1 = mp[0][0];
 			int &t2 = mp[0][1];
 			int &t3 = mp[1][0];
-			int &t4 = mp[1][1];
+			int &t4 = mp[1][1];	
 			swap(t1,t2);
 			swap(t1,t3);
 			swap(t3,t4);
