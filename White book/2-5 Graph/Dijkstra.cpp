@@ -18,7 +18,9 @@ using namespace std;
 #define maxe 112345
 #define maxv 112345
 
-struct edge{int to,cost;};
+struct edge{
+	int to,cost;
+};
 typedef pair<int,int> pii; //  first 存最短距离，second 存编号
 
 vector<vector<edge> > arr(maxe);

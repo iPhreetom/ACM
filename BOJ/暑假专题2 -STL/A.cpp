@@ -52,7 +52,7 @@ signed main(){
 			s.insert(findfather(i));
 		}
 		cout<<s.size()-1<<endl;
-	}
+	}	
 
 	return 0;
 }
