@@ -59,6 +59,7 @@ signed main(){
     else{
 
         int ans = xx*(x-y)/divisor;
+        l = l/divisor;
         if(ans < 0){
             int len = -ans / l;
             ans += l*len;
