@@ -1,77 +1,46 @@
-#include <vector>
-#include <list>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <bitset>
-#include <algorithm>
-#include <functional>
-#include <numeric>
-#include <utility>
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <iomanip>
-#include <cstdio>
-#include <cmath>
-#include <cstdlib>
-#include <ctime>
-#include <cstring>
-#include <limits>
-#include <climits>
-#include <cstdio>
-#include <complex>
-#include <numeric>
-#include <cassert>
-#define int long long
-#define double long double
+#include <bits/stdc++.h>
 using namespace std;
-
-int exgcd(int a,int b,int &x,int &y){
-    int result = a;
-    if(b == 0){
-        x = 1;
-        y = 0;
+typedef long long ll;
+const int maxn = 1e5 + 5;
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  cout.tie(0);
+  int n, m;
+  string s, t;
+  cin >> n >> m;
+  cin >> s >> t;
+  if (n > m + 1) {
+    cout << "NO\n";
+    return 0;
+  }
+  int p1, p2;
+  for (p1 = 0; p1 < n; p1++) {
+    if (s[p1] != t[p1])
+      break;
+  }
+  p1--;
+  for (p2 = n; p2 > p1; p2--) {
+    if (s[p2] != t[m - n + p2])
+      break;
+  }
+  if (p2 == p1) {
+    if (m == n) {
+      cout << "YES\n";
+      return 0;
+    } else {
+      cout << "NO\n";
+      return 0;
     }
-    else{
-        result = exgcd(b,a%b,y,x);
-        y -= (a/b)*x;
-    }
-    return result;
-}
-
-
-signed main(){
-	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
-	int x,y,n,m,l;
-    int xx,yy;
-    cin>>x>>y>>m>>n>>l;
-    if(m>n){
-        swap(m,n);
-        swap(x,y);
-    }
-    int divisor = exgcd(n-m,l,xx,yy);
-
-    if((x-y) % divisor != 0){
-        cout<<"Impossible"<<endl;
-    }
-    else{
-
-        int ans = xx*(x-y)/divisor;
-        l = l/divisor;
-        if(ans < 0){
-            int len = -ans / l;
-            ans += l*len;
-            ans += l;
-        }
-        while(ans < 0)ans+=l;
-
-
-		ans %= l;
-        cout<<ans<<endl;
-    }
-
-
-	return 0;
+  }
+  if (p2 - p1 > 1) {
+    cout << "NO\n";
+    return 0;
+  }
+  if (s[p1 + 1] != '*') {
+    cout << "NO\n";
+    return 0;
+  }
+  cout << "YES\n";
+  return 0;
 }
