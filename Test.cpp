@@ -1,133 +1,114 @@
-POJ 3468
-	一句话描述：
-		线段树裸题
-	知识点：
-		线段树：区间修改
-			懒惰标签（add）
-				不断加叠
-				使用后清零
-		线段树：区间求和（求最大值，求最小值）
-	碎碎念：
-		板子一开始敲错了，add变成每次直接赋值为新传递的值
-		显然，并不如此，应该不断加叠才对
-		不过……
-		线段树好简单呀，好理解，也好使用，用树形结构来加速处理问题
-		接下来，在前往更遥远的地方吧
-
-#include <vector>
-#include <list>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <bitset>
-#include <algorithm>
-#include <functional>
-#include <numeric>
-#include <utility>
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <iomanip>
-#include <cstdio>
-#include <cmath>
-#include <cstdlib>
-#include <ctime>
-#include <cstring>
-#include <limits>
-#include <climits>
-#include <cstdio>
-#include <complex>
-#include <numeric>
-#include <cassert>
-#define int long long
-#define double long double
+#include<cstdio>
+#include<iostream>
+#include<cstring>
+#include<queue>
+#include<algorithm>
 using namespace std;
-
-const int maxn = 112345;
-
-struct node{
-	int l,r;
-	int sum,add;//区间求和
-	#define l(x) tree[x].l
-	#define r(x) tree[x].r
-	#define sum(x) tree[x].sum
-	#define add(x) tree[x].add
-}tree[maxn*4];
-
-int a[maxn];
-int n,q;
-
-void build(int p,int l ,int r){
-	l(p) = l;
-	r(p) = r;
-	if(l == r){
-		sum(p) = a[l];
-		return ;
-	}
-	int mid = (l+r)/2;
-	build(p*2,l,mid);
-	build(p*2+1,mid+1,r);
-	sum(p) = sum(p*2)+sum(p*2+1);
+#define duke(i,a,n) for(int i = a;i <= n;i++)
+#define lv(i,a,n) for(int i = a;i >= n;i--)
+#define maxn 100010
+template <class T>
+void read(T &x)
+{
+    char c;
+    bool op = 0;
+    while(c = getchar(),c > '9' || c < '0')
+        if(c == '-') op = 1;
+    x = c - '0';
+    while(c = getchar(),c <= '9' && c >= '0')
+        x = x * 10 + c - '0';
+    if(op == 1)
+        x = -x;
 }
+bool vis[maxn];
+int n,m,s,t,k,losew,op,x,y,z,f,dis[maxn],pre[maxn],last[maxn],flow[maxn],maf,mic;
+//dis最小花费;pre每个点的前驱；last每个点的所连的前一条边；flow源点到此处的流量
+struct Edge
+{
+    int to,nxt,flow,dis;//flow流量 dis花费
+	int type;
+} a[maxn];
+int head[maxn],len;
+queue <int> q;
 
-void spread(int p){
-	if(add(p)){
-		sum(p*2)+= add(p)*(r(p*2)-l(p*2)+1);
-		sum(p*2+1) += add(p)*(r(p*2+1)-l(2*p+1)+1);
-		add(2*p) += add(p);
-		add(2*p+1) += add(p);
-		add(p) = 0;
-	}
+void add(int from,int to,int flow,int dis,int type)
+{
+    a[++len].nxt=head[from];
+    a[len].to=to;
+    a[len].flow=flow;
+    a[len].dis=dis;
+	a[len].type=type;
+    head[from]=len;
 }
-
-void change(int p,int l,int r,int d){
-	if(l <= l(p) && r >= r(p)){
-		sum(p) += d*(r(p)-l(p)+1);
-		add(p) += d;
-		return ;
-	}
-	spread(p);
-	int mid = (l(p)+r(p))/2;
-	if(l <= mid)change(p*2,l,r,d);
-	if(r > mid)change(p*2+1,l,r,d);
-	sum(p) = sum(2*p)+sum(2*p+1);
+bool spfa(int s,int t)
+{
+    memset(dis,0x7f,sizeof(dis));
+    memset(flow,0x7f,sizeof(flow));
+    memset(vis,0,sizeof(vis));
+    q.push(s);
+    vis[s]=1;
+    dis[s]=0;
+    pre[t]=-1;
+    while (!q.empty())
+    {
+        int now=q.front();
+        q.pop();
+        vis[now]=0;
+        for (int i=head[now]; i!=-1; i=a[i].nxt)
+        {
+            if (a[i].flow>0 && dis[a[i].to]>dis[now]+a[i].dis)//正边
+            {
+                dis[a[i].to]=dis[now]+a[i].dis;
+                pre[a[i].to]=now;
+                last[a[i].to]=i;
+                flow[a[i].to]=min(flow[now],a[i].flow);//
+                if (!vis[a[i].to])
+                {
+                    vis[a[i].to]=1;
+                    q.push(a[i].to);
+                }
+            }
+        }
+    }
+    return pre[t]!=-1;
 }
-
-int ask(int p,int l,int r){
-	if(l <= l(p) && r >= r(p)){
-		return sum(p);
-	}
-	spread(p);
-	int mid = (l(p)+r(p))/2;
-	int val = 0;
-	if(l<=mid)val += ask(p*2,l,r);
-	if(r > mid)val += ask(p*2+1,l,r);
-	return val;
+void max_flow()
+{
+    while (spfa(s,t))
+    {
+        int now=t;
+        maf+=flow[t];
+        mic+=flow[t]*dis[t];
+        while (now!=s)
+        {
+            a[last[now]].flow-=flow[t];//flow和dis容易搞混
+            a[last[now]^1].flow+=flow[t];
+            now=pre[now];
+        }
+    }
 }
-
-
-signed main(){
-	ios::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
-	cin>>n>>q;
-	for (int i=1; i<=n; i++){
-		cin>>a[i];
-	}
-	build(1,1,n);
-	while(q--){
-		char t;
-		int l,r,v;
-		cin>>t;
-		if(t == 'C'){
-			cin>>l>>r>>v;
-			change(1,l,r,v);
+int main()
+{
+    int t;read(t);
+	while(t--){
+		memset(head,-1,sizeof(head));
+	    len = -1;
+		int q;
+	    read(q);read(n);read(k);read(losew);
+		//read(s);read(t);
+		s = 0;
+		t = 205;
+	    duke(i,1,n)
+	    {
+	        read(x);read(y);read(z);read(op);
+	        add(x,y,1,-z,op);
+	        add(y,x,0,z,op);
+	    }
+		for (int i=1; i<=n; i++){
+		    
 		}
-		else{
-			cin>>l>>r;
-			cout<<ask(1,l,r)<<endl;
-		}
+	    max_flow();
+	    printf("%d %d\n",maf,mic);
 	}
-	return 0;
+    return 0;
 }
