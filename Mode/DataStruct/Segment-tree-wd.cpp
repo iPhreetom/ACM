@@ -86,16 +86,16 @@ int query(int l, int r, int index) {
 	int Max = 0;
 	int Min = inf;
 	if (l <= mid) {
-		ans += query(l, r, index << 1);
-		Max = max(query(l, r, index << 1), Max);
+		// ans += query(l, r, index << 1);
+		// Max = max(query(l, r, index << 1), Max);
 		Min = min(query(l, r, index << 1), Min);
 	}
 	if (r > mid) {
-		ans += query(l, r, index << 1 | 1);
-		Max = max(query(l, r, index << 1 | 1), Max);
+		// ans += query(l, r, index << 1 | 1);
+		// Max = max(query(l, r, index << 1 | 1), Max);
 		Min = min(query(l, r, index << 1 | 1), Min);
 	}
 	//return ans;
-	return Max;
-	//return Min;
+	// return Max;
+	return Min;
 }
