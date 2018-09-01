@@ -16,9 +16,17 @@ signed main(){
 	while(cin>>n>>len){
 		for (int i=0; i<len; i++){
 		    cin>>a[i];
+			if(a[i]==0)
+			{
+				if(i==0)continue;
+				else a[i]=a[i-1];
+			}
+			else if(i==1&&a[0]==0)a[0]=a[1];
 		}
+		n--;
 		int cur=1,cnt=0,ans=0;
 		for (int i=1; i<(1<<len); i++){
+			cnt=0;cur=1;
 			for (int j=0; j<len; j++){
 				if((i>>j)&1)
 				{
@@ -26,7 +34,8 @@ signed main(){
 					cur=lcm(cur,a[j]);
 				}
 			}
-			ans+=(cnt%2?1:-1)*(n/cur);
+			//cout<<cur<<" "<<i<<" "<<ans<<endl;
+			ans+=(n/cur)*(cnt%2?1:-1);
 		}
 		cout<<ans<<endl;
 	}
