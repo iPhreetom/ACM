@@ -16,9 +16,16 @@ signed main(int argc, char *argv[]) {
     }
     srand(seed);
     cout<<1<<endl;
-    int n = random(4,4);
+    int n = random(5,5);
+    int m = random(10,10);
+    int k = random(1,10);
     cout<<n<<endl;
-    for (int i=0; i<n; i++){
+    cout<<m<<endl;
+    cout<<k<<endl;
+    for(int i=1;i<=4;i++){
+        cout<<i<<' '<<i+1<<' '<<random(1,10)<<endl;
+    }
+    for(int i=5;i<=10;i++){
         cout<<random(1,5)<<' '<<random(1,5)<<' '<<random(1,10)<<endl;
     }
 

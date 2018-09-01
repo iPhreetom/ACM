@@ -1,70 +1,90 @@
-#include <iostream>
-#include <string>
-#include <map>
-#include <set>
-#include <stack>
-#include <algorithm>
-#include <vector>
-#include <queue>
-
-#include <cstring>
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-using namespace std;
-#define LL long long
-#define row(a, s, e) for(int a = s; a <= e; ++a)
-#define wor(a, s, e) for(int a = s; a >= e; --a)
-#define rowd(a, s, e, d) for(int a = s; a <= e; a += d)
+#include<bits/stdc++.h>
+#define int long long
+#define double long double
+#define endl '\n'
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #define min(a, b) ((a) < (b) ? (a) : (b))
-#define MOD (1000000007)
-//#define endl '\n'
-struct pnt{
-	LL x, y, v, to, re;
-}p[112345];
+using namespace std;
 
-bool cmp(pnt x, pnt y)
-{
-	if(x.x < y.x)
-	    return 1;
-	else if(x.x == y.x && x.y < y.y)
-	    return 1;
+map< pair<int,int> , int > mp;
+vector<pair<int,int>> a[112345];
+int u,v,c;
+int n,m,k;
+int node[112345][11];
+const int maxn = 1e18;
+bool vis[112345];
+void init(){
+	memset(vis, 0, sizeof  vis);
+	for(int i=0;i<112345;i++){
+		a[i].clear();
+	}
+	mp.clear();
+	for (int i=0; i<112345; i++){
+	    for (int j=0; j<=10; j++){
+	        node[i][j] = maxn;
+	    }
+	}
+}
+
+void bfs(int p){
+	queue<int> que;
+	que.push(1);
+	for(int i = 0; i <= k; i++)
+	    node[1][i] = 0;
+
+	while(!que.empty()){
+		int u = que.front();
+		bool si = 0;
+		vis[u] = 0;
+		que.pop();
+        for(int i = 0; i < a[u].size(); i++)
+        {
+        	int to = a[u][i].first;
+        	if(node[to][0] > node[u][0] + a[u][i].second)
+        	    node[to][0] = node[u][0] + a[u][i].second, si = 1;
+        	//node[to][k] = min(node[to][k], node[u][k - 1]);
+        	for(int j = 1; j <= k; j++)
+        	{
+        		if(node[to][j] > node[u][j] + a[u][i].second)
+        		    node[to][j] = node[u][j] + a[u][i].second, si = 1;
+        		if(node[to][j] > node[u][j - 1])
+        		    node[to][j] = node[u][j - 1], si = 1;
+			}
+			if(!vis[to] && si)
+			{
+				vis[to] = 1;
+				que.push(to);
+			}
+			//cout<< u << ' ' << to << ' ' << node[to][k] << endl;
+		}
+	}
+}
+
+signed main(){
+	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
+	int tt;cin>>tt;
+	while(tt--){
+		init();
+
+		cin>>n>>m>>k;
+		for (int i=0; i<m; i++){
+			cin>>u>>v>>c;
+			if(mp.count(make_pair(u,v)) == 0)mp[make_pair(u,v)] = c;
+			else mp[make_pair(u,v)] = min(mp[make_pair(u,v)],c);
+		}
+
+		for(auto i=mp.begin();i!=mp.end();i++){
+			const int &u = i->first.first;
+			const int &v = i->first.second;
+			int &c = i->second;
+			a[u].push_back(make_pair(v,c));
+		}
+
+		bfs(1);
+		int ans = node[n][0];
+		for(int i= 1; i <= k; i++)
+		    ans = min(ans, node[n][i]);
+		cout << ans << endl;
+	}
 	return 0;
-}
-int n;
-LL dfs(int now)
-{
-	if(p[now].re == -1)
-	{
-		p[now].re = 0;
-		row(i, now + 1, n)
-		{
-			if(p[now].y < p[i].y && p[now].x < p[i].x)
-			    p[now].re = max(p[now].re, dfs(i));
-		}
-		p[now].re += p[now].v;
-	}
-	return p[now].re;
-}
-
-int main ()
-{
-    ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
-	int t;
-	cin >> t;
-	while(t--)
-	{
-		cin >> n;
-		for(int i = 1; i <= n; i++)
-		{
-			cin >> p[i].x >> p[i].y >> p[i].v;
-			p[i].to = p[i].re = -1;
-		}
-		p[0].x = p[0].y = p[0].v = 0;
-		p[0].re = p[0].to = -1;
-		sort(p + 1, p + n + 1, cmp);
-		cout << dfs(0) << endl;
-	}
-    return 0;
 }
