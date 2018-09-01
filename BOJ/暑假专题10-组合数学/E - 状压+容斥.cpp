@@ -14,6 +14,7 @@ signed main(){
 	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
 	int n,len;
 	while(cin>>n>>len){
+		n--;
 		for (int i=0; i<len; i++){
 		    cin>>a[i];
 			if(a[i]==0)
