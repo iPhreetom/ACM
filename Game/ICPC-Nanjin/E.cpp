@@ -1,31 +1,42 @@
-#include <cstdio>
-#include <algorithm>
+// fyt
+#include<bits/stdc++.h>
+#define int long long
+#define double long double
 using namespace std;
-long long a[20], b[20];
-int m[20];
-long long dp[1<<20];
-inline int cnt(int x) {
-	int cc = 1; while (x) { cc++; x >>= 1; }; return cc;
-}
-int main(int argc, char const *argv[]) {
-	int n; scanf("%d", &n);
-	for (int i = 0; i < n; ++i) {
-		int s; scanf("%lld %lld %d", &a[i], &b[i], &s);
-		for (int j = 0; j < s; ++j) {
-			int p; scanf("%d", &p); p--;
-			m[i] |= 1<<p;
+
+struct node{
+	int a,b;
+	bitset<20> state;
+
+	node(){}
+	node(int a,int b){
+		this->a = a;
+		this->b = b;
+	}
+};
+
+vector<node> arr;
+bool vis[1<<20];
+
+signed main(){
+	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
+	int n;
+	cin>>n;
+	for (int i=0; i<n; i++){
+		int a,b,s;
+		cin>>a>>b>>s;
+		arr.push_back(node(a,b));
+		auto &t = arr.back();
+		for (int i=0; i<s; i++){
+			int q;
+			cin>>q;
+			arr[i].state[q-1] = 1;
 		}
 	}
-	long long mmax = 0;
-	for (int i = 1; i < 1<<n; ++i) {
-		for (int j = 0; j < n; ++j) {
-			int t = 1<<j;
-			if ((i&t) && ((((i^t)^m[j])&m[j]) == 0)) {
-				dp[i] = max(dp[i], dp[i^t] + cnt(i^t) * a[j] + b[j]);
-				mmax = max(mmax, dp[i]);
-			}
-		}
+	vis[0]=1;
+	for(int i=1;i<1<<20;i++){
+		
 	}
-	printf("%lld\n", mmax);
+
 	return 0;
 }
