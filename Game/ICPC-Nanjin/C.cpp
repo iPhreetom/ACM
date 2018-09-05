@@ -1,12 +1,11 @@
 // fyt
 #include<bits/stdc++.h>
-#define int long long
 #define double long double
 using namespace std;
 
 queue<int> que;
-int ans[205];
-multiset<int> s[205];
+int ans[255];
+multiset<int> s[255];
 
 signed main(){
 	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
@@ -27,6 +26,7 @@ signed main(){
 			if(t == 2)t+=13;
 			que.push(t);
 		}
+
 		bool win = 0;
 		for (int i=1; i<=n; i++){
 		    for (int j=0; j<5 && !que.empty(); j++){
@@ -38,6 +38,7 @@ signed main(){
 		int last = 0;
 		int cnt = 0;
 		while(!win){
+			// cout<<last<
 			for (int i=1; i<=n && !win; i++){
 				if(last == 0){
 					cnt=0;
@@ -46,9 +47,10 @@ signed main(){
 				}
 				else{
 					if(s[i].count(last+1) == 0){
-						if(last + 1 != 16 && s[i].count(15) != 0){
+						if(last != 15 && s[i].count(15) != 0){
 							last = 15;
 							cnt = 0;
+							s[i].erase(s[i].find(15));
 						}
 						else{
 							cnt++;
@@ -63,6 +65,7 @@ signed main(){
 
 				if(s[i].size() == 0){
 					win = 1;
+					break;
 				}
 
 				if(cnt == n){
@@ -74,6 +77,10 @@ signed main(){
 					cnt = 0;
 					i--;
 				}
+				// cout<<"last = "<<last<<endl;
+				// cout<<"s[1].size() = "<<s[1].size()<<endl;
+				// cout<<"s[2].size() = "<<s[2].size()<<endl;
+				// cout<<endl;
 			}
 		}
 		for (int i=1; i<=n; i++){
@@ -93,5 +100,6 @@ signed main(){
 			}
 		}
 	}
+	// 1 2 8 1 1 2 2 2 2 2 5
 	return 0;
 }
