@@ -5,7 +5,7 @@
 #define double long double
 #define endl '\n'
 using namespace std;
-const int mod = 1e9+7,maxdiv = 20;
+const int mod = 1e9+7,maxdiv = 15;
 vector <int> lis;
 int n,m;
 inline int numof1(int x)
@@ -21,6 +21,7 @@ inline int numof1(int x)
 const int MAXN = 1e4+5;
 int prime[MAXN+1];
 int minPrime[MAXN+1];
+set<int> ss;
 
 void getPrime(){
     memset(prime, 0, sizeof(prime));
@@ -35,41 +36,27 @@ void getPrime(){
             if(i % prime[j] == 0) break;
         }
     }
-}
-
-
-inline void split(int m)
-{
 	for (int i=1; i<=prime[0]; i++){
-
+		ss.insert(prime[i]);
 	}
 }
 
-// void split(void)
-// {
-// 	int tmp = m;
-// 	for(int i = 1; prime[i] * prime[i] <= tmp && i<=prime[0]; ++i)
-//     {
-// 		bool fir = 1;
-// 		while(tmp % prime[i] == 0)
-//         {
-//             tmp /= prime[i];
-//             if(fir)
-// 			{
-// 				fir=1;
-// 				lis.push_back(prime[i]);
-// 			}
-//         }
-//     }
-//     if(tmp > lis[lis.size()-1])
-//         lis.push_back(tmp);
-// }
+
 
 inline void split(){
-	for (int i=1; i<=prime[0] && prime[i]*prime[i] <= m; i++){
-		if(m%prime[i] == 0){
-			lis.push_back(prime[i]);
+	set<int> st;
+	for (int i=1; i*i<=m ;i++){
+		if(m%i == 0){
+			if(ss.count(m/i) != 0){
+				st.insert(m/i);
+			}
+			if(ss.count(i) != 0){
+				st.insert(i);
+			}
 		}
+	}
+	for(auto i:st){
+		lis.push_back(i);
 	}
 }
 
@@ -82,13 +69,13 @@ inline int cnt(void)
 	{
 		for(int i=lis.size();i>=0;i--)
 		{
-			if(s&(1<<i))
+			if(s & (1<<i))
 			{
 				prod[s] = prod[s^(1<<i)] * lis[i];
 				if(prod[s] > n)break;//greater than n
 				int tmp = n / prod[s];
 				int f=(numof1(s)%2==0?-1:1);
-				res += f*(prod[s] * (((1+tmp)*tmp%mod*500000004)%mod) % mod);
+				res += f*(prod[s] * 	(((1+tmp)%mod*tmp%mod*500000004)%mod) % mod);
 				res = (res+mod)%mod;
 				res += f*(((prod[s] * prod[s])%mod * ((((tmp*(tmp+1))%mod)*(tmp*2+1))%mod)*166666668%mod)%mod);
 				res = (res+mod)%mod;
@@ -99,10 +86,42 @@ inline int cnt(void)
 	return res;
 }
 
+int duipai(int index){
+	int ans = 0;
+	for (int i=1; i<=3000; i++){
+		if(__gcd(i,index) == 1){
+			ans += (i*(i+1));
+			ans%=mod;
+		}
+	}
+	return ans;
+}
 
 signed main(){
 	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
 	getPrime();
+	// for (int i=3000; i<=300000; i++){
+	//     n = 3000;
+	// 	m = i;
+	// 	lis.clear();
+	// 	memset(prod,0,sizeof(prod));
+	// 	int sum = 0;
+	// 	split();
+	// 	int sum1 = cnt();
+	//
+	//
+	// 	sum = ((1+n)*n)%mod*500000004ll%mod;
+	// 	sum %= mod;
+	// 	sum = sum + ((((n+1)*n)%mod * (2*n+1))%mod*166666668ll%mod);
+	// 	sum %= mod;
+	// 	sum = ((sum-sum1)+mod)%mod;
+	// 	if(sum != duipai(i)){
+	// 		cout<<"i = "<<i<<endl;
+	// 		cout<<"sum = "<<sum<<endl;
+	// 		cout<<"duipai(i) = "<<duipai(i)<<endl;
+	// 		break;
+	// 	}
+	// }
 	while(cin>>n>>m){
 		n = min(n,m);
 		lis.clear();
@@ -110,6 +129,8 @@ signed main(){
 		int sum = 0;
 		split();
 		int sum1 = cnt();
+
+
 		sum = ((1+n)*n)%mod*500000004ll%mod;
 		sum %= mod;
 		sum = sum + ((((n+1)*n)%mod * (2*n+1))%mod*166666668ll%mod);
