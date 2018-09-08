@@ -68,14 +68,15 @@ signed main(){
 					break;
 				}
 
-				if(cnt == n){
-					for (int j=0;!que.empty() && j<=n-1; j++){
-						s[(i+j)%(n+1)].insert(que.front());
+				if(cnt == n-1){
+					for (int j=1;!que.empty() && j<=n; j++){
+						int p = (i+j);
+						if(p > n)p-=n;
+						s[p].insert(que.front());
 						que.pop();
 					}
 					last = 0;
 					cnt = 0;
-					i--;
 				}
 				// cout<<"last = "<<last<<endl;
 				// cout<<"s[1].size() = "<<s[1].size()<<endl;

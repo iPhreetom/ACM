@@ -1,57 +1,102 @@
 // fyt
 #include<bits/stdc++.h>
-#define int long long
 #define double long double
 using namespace std;
-const int maxn=15,maxs=(1<<15),inf=(1ll<<60);
-int g[maxn+5][maxn+5],dp[maxs+5];bool vis[maxn];
-// bitset<20> b;
+
+queue<int> que;
+int ans[255];
+multiset<int> s[255];
 
 signed main(){
 	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
-	int n;
-	cin>>n;
-	for(int i=0;i<n;i++)
-	{
-		for(int j=0;j<n;j++)
-		{
-			cin>>g[i][j];
+	int tt;
+	cin>>tt;
+	int q = tt;
+	while(tt--){
+		int n,m;
+		for (int i=0; i<205; i++){
+		    s[i].clear();
 		}
-	}
-	/*for(int s=1;s<(1<<(n-1));s++)
-		dp[s*2]=inf;
-	vis[1]=1;
-	for(int s=2;s<(1<<n);s++)
-	{
-		if(s%2==0)continue;
-		for(int i=1;i<n;i++)
-		{
-			if((s&(1<<i))&&vis[s^(1<<i)])
-			{
-				int minr=inf;
-				for(int j=0;j<n;j++)
-				{
-					if((i!=j)&&(s&(1<<i))&&vis[s^(1<<i)])
-					{
-						minr=min(g[j][i],minr);
+		while(!que.empty())que.pop();
+
+		cin>>n>>m;
+		for (int i=0; i<m; i++){
+			int t;cin>>t;
+			if(t == 1)t+=13;
+			if(t == 2)t+=13;
+			que.push(t);
+		}
+
+		bool win = 0;
+		for (int i=1; i<=n; i++){
+		    for (int j=0; j<5 && !que.empty(); j++){
+		        s[i].insert(que.front());
+				que.pop();
+		    }
+		}
+
+		int last = 0;
+		int cnt = 0;
+		while(!win){
+			// cout<<last<
+			for (int i=1; i<=n && !win; i++){
+				if(last == 0){
+					cnt=0;
+					last = *s[i].begin();
+					s[i].erase(s[i].find(*s[i].begin()));
+				}
+				else{
+					if(s[i].count(last+1) == 0){
+						if(last != 15 && s[i].count(15) != 0){
+							last = 15;
+							cnt = 0;
+							s[i].erase(s[i].find(15));
+						}
+						else{
+							cnt++;
+						}
+					}
+					else{
+						s[i].erase(s[i].find(last+1));
+						last = last + 1;
+						cnt = 0;
 					}
 				}
-				dp[s]=min(dp[s],dp[s^(1<<i)]+minr);
+
+				if(s[i].size() == 0){
+					win = 1;
+					break;
+				}
+
+				if(cnt == n-1){
+					for (int j=1;!que.empty() && j<=n; j++){
+						int p = (i+j);
+						if(p > n)p-=n;
+						s[p].insert(que.front());
+						que.pop();
+					}
+					last = 0;
+					cnt = 0;
+				}
 			}
 		}
-	}*/
-	for(int i=1;i<(1<<(n-1));i++)dp[i]=inf;
-	vis[0]=1;
-	for(int s=1;s<(1<<(n-1));s++)
-	{
-		for(int j=1;j<n;j++)
-		{
-			if((s&(1<<(j-1)))&&(vis[s^(1<<(j-1))]))
-			{
-				// if()
+		for (int i=1; i<=n; i++){
+			ans[i] = 0;
+			for(auto j : s[i]){
+				if(j == 15 || j == 14)j-=13;
+			    ans[i] += j;
+			}
+		}
+		cout<<"Case #"<<q-tt<<":"<<endl;
+		for (int i=1; i<=n; i++){
+		    if(ans[i] == 0){
+				cout<<"Winner"<<endl;
+			}
+			else{
+				cout<<ans[i]<<endl;
 			}
 		}
 	}
-	cout<<dp[(1<<(n-1))-1]<<endl;
+	// 1 2 8 1 1 2 2 2 2 2 5
 	return 0;
 }

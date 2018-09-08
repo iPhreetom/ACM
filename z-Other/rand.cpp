@@ -16,11 +16,15 @@ signed main(int argc, char *argv[]) {
     }
     srand(seed);
     ///////////////////////////////////////
-    int n = random(1,10000);
-    while(n%2 != 1)n = random(1,10000);
+    cout<<1<<endl;
+    int n = random(2,5);
+    int l = (n-1)*5 + 1;
+    int m = random(l,20000);
     cout<<n<<endl;
-    for (int i=0; i<n; i++){
-        cout<<random(1,1000000000)<<endl;
+    cout<<m<<endl;
+    for (int i=0; i<m; i++){
+        cout<<random(1,13)<<' ';
     }
+    cout<<endl;
     return 0;
 }
