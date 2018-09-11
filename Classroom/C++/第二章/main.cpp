@@ -140,10 +140,10 @@ private:
 
 int main(){
 	sys bjtu;
-	// if(!fopen("data.txt","r")){
-	// 	auto f = fopen("data.txt","w");
-	// 	fclose(f);
-	// }
+	if(!fopen("data.txt","r")){
+		auto f = fopen("data.txt","w");
+		fclose(f);
+	}
 	bjtu.begin("data.txt");
 
 	while(1){
