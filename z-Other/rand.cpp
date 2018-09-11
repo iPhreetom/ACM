@@ -16,16 +16,20 @@ signed main(int argc, char *argv[]) {
     }
     srand(seed);
     ///////////////////////////////////////
-    cout<<2<<endl;
-    cout<<random(-100,100)<<endl;
-    int r = random(0,100);
-    cout<<r<<endl;
-    cout<<random(-100,r)<<endl;
-
-    for(int i=0;i<2;i++){
-        for (int j=0; j<3; j++){
-            cout<<random(-100,100)<<' '<<random(-100,100)<<' '<<random(0,1)<<endl;
+    cout<<1000<<endl;
+    int q = 1000;
+    while(q--){
+        for (int i=0; i<3; i++){
+            for (int j=0; j<3; j++){
+                int t = random(1,4);
+                if(t % 4 == 0)cout<<'C';
+                else if(t % 4 == 1)cout<<'T';
+                else if(t % 4 == 2)cout<<'Z';
+                else cout<<'.';
+            }
+            cout<<endl;
         }
     }
+
     return 0;
 }
