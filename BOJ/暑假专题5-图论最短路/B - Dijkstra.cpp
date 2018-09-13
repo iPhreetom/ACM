@@ -46,7 +46,7 @@ bool vis[maxn];
 #define maxv 1123456
 
 
-int d[maxv];
+// int d[maxv];
 
 inline bool readint(int &num)
 {
