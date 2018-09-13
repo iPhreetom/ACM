@@ -1,0 +1,18 @@
+// fyt
+#include<bits/stdc++.h>
+#define int long long
+#define double long double
+using namespace std;
+
+
+signed main(){
+	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
+	int kk;
+	cin>>kk;
+	while(kk--){
+		int n,k;
+		cin>>n>>k;
+		
+	}
+	return 0;
+}

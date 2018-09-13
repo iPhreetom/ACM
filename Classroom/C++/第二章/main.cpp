@@ -77,6 +77,11 @@ public:
 		fout.close();
 	}
 
+	bool check(){
+
+	}
+
+
 	void send(string &aim,string &message){
 		database[aim].message.push_back(message);
 		for(auto i: database[aim].lis){
