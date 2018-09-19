@@ -15,13 +15,13 @@ void init(){
 	}
 }
 
-bool bfs(){
+bool bfs(int s,int e){
 	bool vis[2123];
 	memset(vis,0,sizeof(vis));
 
 	queue<int> que;
-	que.push(1);
-
+	que.push(s);
+	per[s]=-1;
 	while(!que.empty()){
 		int t = que.front();
 		que.pop();
@@ -30,15 +30,23 @@ bool bfs(){
 			int &c = mp[t][i].second;
 		    if(!vis[v]&&c){
 				vis[v]=1;
-				
+				per[v]=t;
+				if(v == e){
+
+				}
 			}
 		}
 	}
+	return false;
 }
 
 void max_flow(){
-	int min = 1e14;
-
+	int minn = 1e14;
+	while(bfs(1,n)){
+		for(int i=n;i!=-1;i=per[i]){
+			minn = min(minn,mp[i])
+		}
+	}
 }
 
 signed main(){
