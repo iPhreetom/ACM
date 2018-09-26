@@ -1,67 +1,88 @@
-// fyt
+// genius
 #include<bits/stdc++.h>
 #define int long long
 #define double long double
 #define endl '\n'
 using namespace std;
 
-vector<pair<int,int> > mp[212345];
-int n,t,m,c;
-int per[212345];
+const int MOD = 1e9 + 7;
+int mi;
+char x[10][105];
+int cnt[10];
+int ans;
+bool use[105];
+void init()
+{
+	mi = 1;
+	for(int i = 1; i <= 15;i ++)
+	    mi *= 96 - i , mi %= MOD;
+	// for(int i = 1; i <= 5;i ++)
+	//     mi *= 96	 - i , mi %= MOD;
 
-void init(){
-	for (int i=0; i<212345; i++){
-	    mp[i].clear();
-	}
+	// for(int k=100;k>=1;k--){
+	// 	for (int j=1; j<=100; j++){
+	// 		mi = 1;
+	// 		for(int i = 0; i <= j;i ++){
+	// 			mi *= (k - i) ;
+	// 			mi %= MOD;
+	// 		}
+	// 		if(mi == 531192758)cout<<"mi = "<<mi<<endl;
+	// 	}
+	// }
+
+	cout<<"SD"<<endl;
 }
 
-bool bfs(int s,int e){
-	bool vis[2123];
-	memset(vis,0,sizeof(vis));
-
-	queue<int> que;
-	que.push(s);
-	per[s]=-1;
-	while(!que.empty()){
-		int t = que.front();
-		que.pop();
-		for (int i=0; i<mp[t].size(); i++){
-			int &v = mp[t][i].first;
-			int &c = mp[t][i].second;
-		    if(!vis[v]&&c){
-				vis[v]=1;
-				per[v]=t;
-				if(v == e){
-
-				}
-			}
-		}
+void force(int now)
+{
+	//cout << now <<endl;
+	if(now == 5)
+	{
+		ans += cnt[5];
+		if(ans >= MOD) ans -= MOD;
+		return ;
 	}
-	return false;
-}
+	for(int i = 0; i < 100; i++)
+	{
+		if(x[now][i] == '1' && !use[i])
+		{
+			use[i] = 1;
+			x[5][i]--;
+			if(x[5][i] == '0')
+			    cnt[5]--;
 
-void max_flow(){
-	int minn = 1e14;
-	while(bfs(1,n)){
-		for(int i=n;i!=-1;i=per[i]){
-			minn = min(minn,mp[i])
+			force(now + 1);
+
+			use[i] = 0;
+			x[5][i]++;
+			if(x[5][i] == '1')
+			    cnt[5]++;
 		}
 	}
 }
 
 signed main(){
 	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
-	cin>>t;
-	while(t--){
-		init();
-		cin>>n>>m;
-		for (int i=0; i<m; i++){
-		    int v,u,c;
-			cin>>v>>u>>c;
-			mp[v].push_back(make_pair(u,c));
-			mp[u].push_back(make_pair(v,0));
+    init();
+	while(cin >> x[1] >> x[2] >> x[3] >> x[4] >> x[5])
+	{
+		memset(cnt, 0, sizeof cnt);
+		memset(use, 0, sizeof use);
+		ans = 0;
+		for(int i = 1; i <= 5;i ++)
+		{
+			for(int j = 0; j < 100; j++)
+			    if(x[i][j] == '1')
+				{
+					cnt[i] ++;
+				//	a[i][j] = 1;
+				}
+				//else
+				//    a[i][j] = 0;
 		}
-		max_flow();
+		force(1);
+		ans = (ans * mi) % MOD;
+		cout << ans << endl;
 	}
 	return 0;
 }
