@@ -10,7 +10,7 @@ int vis[20][20];
 int ans = 0;
 
 void dfs(){
-	
+
 }
 
 signed main(){
