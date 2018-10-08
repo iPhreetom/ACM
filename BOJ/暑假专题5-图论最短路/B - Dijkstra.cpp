@@ -20,11 +20,12 @@
 // 		出发时，用dijkstra算出单源最短路，做一次统计
 // 		然后把所有边反向，然后再一次dijkstra，再做一次统计！
 
-#include<cstdio>
-#include<string.h>
-#include<iostream>
-#include<vector>
-#include<queue>
+// #include<cstdio>
+// #include<string.h>
+// #include<iostream>
+// #include<vector>
+// #include<queue>
+#include<bits/stdc++.h>
 // #define int long long
 // #define double long double
 #define endl '\n'
@@ -42,8 +43,8 @@ int d1[maxn];
 int d2[maxn];
 bool vis[maxn];
 // #define inf 112345678
-#define maxe 1123456
-#define maxv 1123456
+#define maxe 1000001
+#define maxv 1000001
 
 
 // int d[maxv];
