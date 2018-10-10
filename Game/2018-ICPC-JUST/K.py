@@ -44,20 +44,20 @@ for kk in range(0,tt):
                 first = 0
             else:
                 print(', '+i,end='')
-        
+
         #title
         print('. '+dic['title'],end='')
-        
+
         #journal
         print('. '+dic['journal'],end='')
-        
+
         #year volume number pages
         print('. '+dic['year']+end='')
         print(';'+dic['volume']+end='')
         print('('+dic['number']+')',end='')
         print(':'+dic['pages']+'.')
-        
-        
-        
+
+
+
 
 
