@@ -59,7 +59,7 @@ public:
 		string address,name,phone,member,email_type;
 		int num;
 		while(fin>>address){
-			fin>>name>>phone>>email_type;
+			fin>>name>>phone>>email_type>>num;
 			if(email_type == "general"){
 				database[address] = (node){name,phone};
 			}
@@ -77,15 +77,20 @@ public:
 	void end(string file){
 		ofstream fout(file);
 		for(auto i:database){
+			// 输出地址
 			fout<<i.first<<' ';
 			auto &t = i.second;
+			// 输出名字
 			fout<<t.name<<' ';
 
-			if(t.phone.empty())cout<<"----";
-			else cout<<t.phone;
+			// 输出电话
+			if(t.phone.empty())fout<<"----";
+			else fout<<t.phone;
 
+			// 输出类别
 			fout<<' '<<t.email_type<<' ';
 
+			// 输出子邮箱
 			fout<<t.lis.size()<<endl;
 			for(auto j:t.lis){
 				fout<<j<<' ';

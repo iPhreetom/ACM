@@ -32,5 +32,8 @@ void findnum(auto &a,auto &b){
 signed main(){
 	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
 
+	// int len=strlen(p);
+	// int res=len-nt[len];//最小循环节的值res=len-nt[len];
+
 	return 0;
 }
