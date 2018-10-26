@@ -6,15 +6,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <algorithm>
-#define MAXN_ 5050
+#define MAXN_ 505
 #define INF 0x3f3f3f3f
 #define P pair<int,int>
 using namespace std;
+
 struct edge{ int to,cap,cost,rev;};
-int n,m,flow,s,t,cap,res,cost,from,to,h[MAXN_];
-std::vector<edge> G[MAXN_];
+
+int n,m,h[MAXN_];
+vector<edge> G[MAXN_];
 int dist[MAXN_],prevv[MAXN_],preve[MAXN_]; // 前驱节点和对应边
-inline void add()
+
+inline void add(int from,int to,int cap,int cost)
 {
     G[from].push_back((edge){to,cap,cost,(int)G[to].size()});
     G[to].push_back((edge){from,0,-cost,(int)G[from].size()-1});
@@ -30,8 +33,10 @@ inline int read()
     return flag?-x:x;
 }
 
-inline void min_cost_flow(int s,int t,int f)
+inline int min_cost_flow(int s,int t,int f)
 {
+    int res = 0;
+    int flow = 0;
     fill(h+1,h+1+n,0);
     while(f > 0)
     {
@@ -70,39 +75,16 @@ inline void min_cost_flow(int s,int t,int f)
             G[v][e.rev].cap += d;
         }
     }
+    return res;
 }
 int main()
 {
    // n = read(); m = read();
    // s = read(); t = read();
-   s = 0;
-   t = 1;
-
-   from = 0;
-   to = 1;
-   cost = 0;
-   cap = 2;
-   add();
 
 
-   // for(int i=1;i<=m;++i)
-   // {
-   //         // from = read(); to = read(); cap = read(); cost = read();
-	// 	   from = read();
-	// 	   to = read();
-	// 	   cost = read();
-	// 	   cap = 1;
-   //         add();
-	// 	   swap(from,to);
-	// 	   add();
-   // }
-   from = 1;
-   to = 0;
-   cost = 1;
-   add();
+   int cost = min_cost_flow(s,t,INF);
 
-   min_cost_flow(s,t,INF);
-   // printf("%d %d\n",flow,res);
-   printf("%d\n",res);
+
    return 0;
 }

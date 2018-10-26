@@ -16,20 +16,28 @@ signed main(int argc, char *argv[]) {
     }
     srand(seed);
     ///////////////////////////////////////
-    cout<<1000<<endl;
-    int q = 1000;
-    while(q--){
-        for (int i=0; i<3; i++){
-            for (int j=0; j<3; j++){
-                int t = random(1,4);
-                if(t % 4 == 0)cout<<'C';
-                else if(t % 4 == 1)cout<<'T';
-                else if(t % 4 == 2)cout<<'Z';
-                else cout<<'.';
-            }
-            cout<<endl;
-        }
-    }
+    cout<<1<<endl;
+    int n = random(2,13);
+    cout<<n<<endl;
 
+    vector<int> v;
+    vector<int> s;
+    for (int i=1; i<=n; i++){
+        v.push_back(i);
+    }
+    random_shuffle(v.begin(),v.end());
+
+    s.push_back(v.back());
+    v.pop_back();
+    for (int i=0; i<n-1; i++){
+        cout<<v.back()<<' ';
+        // cout<<"v.size() = "<<v.size()<<endl;
+
+        random_shuffle(s.begin(),s.end());
+
+        cout<<s.back()<<endl;
+        s.push_back(v.back());
+        v.pop_back();
+    }
     return 0;
 }
