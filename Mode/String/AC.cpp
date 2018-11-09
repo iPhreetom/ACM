@@ -70,15 +70,5 @@ struct Trie
         }
         return res;
     }
-    void debug()
-    {
-        for(int i = 0;i < L;i++)
-        {
-            printf("id = %3d,fail = %3d,end = %3d,chi = [",i,fail[i],end[i]);
-            for(int j = 0;j < 26;j++)
-                printf("%2d",next[i][j]);
-            printf("]\n");
-        }
-    }
 };
 Trie ac;
