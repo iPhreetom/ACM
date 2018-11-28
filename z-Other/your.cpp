@@ -1,211 +1,420 @@
-<<<<<<< HEAD
 // fyt
 #include<bits/stdc++.h>
 #define endl '\n'
+// #define int long long
 using namespace std;
 
-vector<int> mp[2123456];
-vector<int> v;
-int n;
-int dis[2123456];
-bool vis[2123456];
-int fa[2123456];
-int s,e;
-int mx = 0;
+long long mp[7001][7001];
+inline long long solve4(int x,int y,int k){
+	vector<pair<int,pair<int,long long> > >  v;
+	long long ans = 0;
+	int sq = sqrt(k);
+	for(int mx = 0; mx <= sq; mx++){
+		int my = sqrt(k-mx*mx);
+		if(my * my == k-mx*mx){// 合法
+			int nx,ny;
+			// 四个点
 
-inline void bfs_s(int s0){
-	queue<int> que;
-	que.push(s0);
+			// if(mx == 0){
+			// 	if(my == 0){
+			// 		// r-t
+			// 		nx = mx + x;
+			// 		ny = my + y;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			ans += mp[nx][ny];
+			// 			v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 			mp[nx][ny] = 0;
+			// 		}
+			// 	}
+			// 	else{
+			// 		// r-t
+			// 		nx = mx + x;
+			// 		ny = my + y;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			ans += mp[nx][ny];
+			// 			v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 			mp[nx][ny] = 0;
+			// 		}
+			//
+			// 		// l-b
+			// 		nx = x - mx;
+			// 		ny = y - my;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			// cout<<"nx = "<<nx<<' ';
+			// 			// cout<<"ny = "<<ny<<endl;
+			// 			ans += mp[nx][ny];
+			// 			v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 			mp[nx][ny] = 0;
+			// 		}
+			// 	}
+			// }
+			// else{
+			// 	// mx != 0
+			// 	if(my == 0){
+			// 		// r-t
+			// 		nx = mx + x;
+			// 		ny = my + y;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			ans += mp[nx][ny];
+			// 			v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 			mp[nx][ny] = 0;
+			// 		}
+			//
+			// 		// l-b
+			// 		nx = x - mx;
+			// 		ny = y - my;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			// cout<<"nx = "<<nx<<' ';
+			// 			// cout<<"ny = "<<ny<<endl;
+			// 			ans += mp[nx][ny];
+			// 			v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 			mp[nx][ny] = 0;
+			// 		}
+			// 	}
+			// 	else{
+			// 		// r-t
+			// 		nx = mx + x;
+			// 		ny = my + y;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			ans += mp[nx][ny];
+			// 			v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 			mp[nx][ny] = 0;
+			// 		}
+			//
+			// 		// l-b
+			// 		nx = x - mx;
+			// 		ny = y - my;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			// cout<<"nx = "<<nx<<' ';
+			// 			// cout<<"ny = "<<ny<<endl;
+			// 			ans += mp[nx][ny];
+			// 			v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 			mp[nx][ny] = 0;
+			// 		}
+			// 		// r-b
+			// 		nx = x + mx;
+			// 		ny = y - my;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			// cout<<"nx = "<<nx<<' ';
+			// 			// cout<<"ny = "<<ny<<endl;
+			// 			ans += mp[nx][ny];
+			// 			v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 			mp[nx][ny] = 0;
+			// 		}
+			//
+			// 		// l-t
+			// 		nx = x - mx;
+			// 		ny = y + my;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			// cout<<"nx = "<<nx<<' ';
+			// 			// cout<<"ny = "<<ny<<endl;
+			// 			ans += mp[nx][ny];
+			// 			v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 			mp[nx][ny] = 0;
+			// 		}
+			// 	}
+			// }
+			// r-t
+			nx = mx + x;
+			ny = my + y;
+			if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000 && mp[nx][ny] != 0){
+				ans += mp[nx][ny];
+				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+				mp[nx][ny] = 0;
+			}
 
-	dis[s0] = 1;
-	while(!que.empty()){
-		int &t = que.front();
-		for (int i=0; i<mp[t].size(); i++){
-			if(dis[mp[t][i]] == 0){
-				dis[mp[t][i]] = dis[t] + 1;
-				que.push(mp[t][i]);
-				if(dis[mp[t][i]] > mx){
-					s = mp[t][i];
-					mx = dis[mp[t][i]];
+			// l-b
+			nx = x - mx;
+			ny = y - my;
+			if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000 && mp[nx][ny] != 0){
+				// cout<<"nx = "<<nx<<' ';
+				// cout<<"ny = "<<ny<<endl;
+				ans += mp[nx][ny];
+				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+				mp[nx][ny] = 0;
+			}
+			// r-b
+			nx = x + mx;
+			ny = y - my;
+			if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000 && mp[nx][ny] != 0){
+				// cout<<"nx = "<<nx<<' ';
+				// cout<<"ny = "<<ny<<endl;
+				ans += mp[nx][ny];
+				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+				mp[nx][ny] = 0;
+			}
+
+			// l-t
+			nx = x - mx;
+			ny = y + my;
+			if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000 && mp[nx][ny] != 0){
+				// cout<<"nx = "<<nx<<' ';
+				// cout<<"ny = "<<ny<<endl;
+				ans += mp[nx][ny];
+				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+				mp[nx][ny] = 0;
+			}
+		}
+	}
+	for (int i=0; i<v.size(); i++){
+		mp[v[i].first][v[i].second.first] = v[i].second.second;
+	}
+	return ans;
+}
+
+inline void solve3(int x,int y,int k,int w){
+	int sq = sqrt(k);
+	vector<pair<int,pair<int,long long> > >  v;
+	for(int mx = 0; mx <= sq; mx++){
+		int my = sqrt(k-mx*mx);
+		if(my * my == k-mx*mx){// 合法
+			int nx,ny;
+			// 四个点
+
+			// if(mx == 0){
+			// 	if(my == 0){
+			// 		// r-t
+			// 		nx = mx;
+			// 		ny = my + y;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			if(mp[nx][ny] != 0){
+			// 				mp[nx][ny] += w;
+			// 				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 				mp[nx][ny] = 0;
+			// 			}
+			// 		}
+			// 	}
+			// 	else{
+			// 		// r-t
+			// 		nx = mx;
+			// 		ny = my + y;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			if(mp[nx][ny] != 0){
+			// 				mp[nx][ny] += w;
+			// 				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 				mp[nx][ny] = 0;
+			// 			}
+			// 		}
+			//
+			// 		// l-b
+			// 		nx = x;
+			// 		ny = y - my;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			// cout<<"nx = "<<nx<<' ';
+			// 			// cout<<"ny = "<<ny<<endl;
+			// 			if(mp[nx][ny] != 0){
+			// 				mp[nx][ny] += w;
+			// 				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 				mp[nx][ny] = 0;
+			// 			}
+			// 		}
+			// 	}
+			//
+			// }
+			// else{
+			// 	// mx != 0
+			// 	if(my == 0){
+			// 		// r-t
+			// 		nx = mx + x;
+			// 		ny = y;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			if(mp[nx][ny] != 0){
+			// 				mp[nx][ny] += w;
+			// 				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 				mp[nx][ny] = 0;
+			// 			}
+			// 		}
+			//
+			// 		// l-b
+			// 		nx = x - mx;
+			// 		ny = y;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			// cout<<"nx = "<<nx<<' ';
+			// 			// cout<<"ny = "<<ny<<endl;
+			// 			if(mp[nx][ny] != 0){
+			// 				mp[nx][ny] += w;
+			// 				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 				mp[nx][ny] = 0;
+			// 			}
+			// 		}
+			// 	}
+			// 	else{// mx my != 0
+			// 		// r-t
+			// 		nx = x + mx;
+			// 		ny = y + my;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			if(mp[nx][ny] != 0){
+			// 				mp[nx][ny] += w;
+			// 				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 				mp[nx][ny] = 0;
+			// 			}
+			// 		}
+			//
+			// 		// l-b
+			// 		nx = x - mx;
+			// 		ny = y - my;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			// cout<<"nx = "<<nx<<' ';
+			// 			// cout<<"ny = "<<ny<<endl;
+			// 			if(mp[nx][ny] != 0){
+			// 				mp[nx][ny] += w;
+			// 				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 				mp[nx][ny] = 0;
+			// 			}
+			// 		}
+			//
+			// 		// r-b
+			// 		nx = x + mx;
+			// 		ny = y - my;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			// cout<<"nx = "<<nx<<' ';
+			// 			// cout<<"ny = "<<ny<<endl;
+			// 			if(mp[nx][ny] != 0){
+			// 				mp[nx][ny] += w;
+			// 				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 				mp[nx][ny] = 0;
+			// 			}
+			// 		}
+			//
+			// 		// l-t
+			// 		nx = x - mx;
+			// 		ny = y + my;
+			// 		if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+			// 			// cout<<"nx = "<<nx<<' ';
+			// 			// cout<<"ny = "<<ny<<endl;
+			// 			if(mp[nx][ny] != 0){
+			// 				mp[nx][ny] += w;
+			// 				v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+			// 				mp[nx][ny] = 0;
+			// 			}
+			// 		}
+			// 	}
+			// }
+			// r-t
+			nx = x + mx;
+			ny = y + my;
+			if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+				if(mp[nx][ny] != 0){
+					mp[nx][ny] += w;
+					v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+					mp[nx][ny] = 0;
+				}
+			}
+
+			// l-b
+			nx = x - mx;
+			ny = y - my;
+			if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+				// cout<<"nx = "<<nx<<' ';
+				// cout<<"ny = "<<ny<<endl;
+				if(mp[nx][ny] != 0){
+					mp[nx][ny] += w;
+					v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+					mp[nx][ny] = 0;
+				}
+			}
+
+			// r-b
+			nx = x + mx;
+			ny = y - my;
+			if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+				// cout<<"nx = "<<nx<<' ';
+				// cout<<"ny = "<<ny<<endl;
+				if(mp[nx][ny] != 0){
+					mp[nx][ny] += w;
+					v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+					mp[nx][ny] = 0;
+				}
+			}
+
+			// l-t
+			nx = x - mx;
+			ny = y + my;
+			if(nx > 0 && nx <= 6000 && ny > 0 && ny <= 6000){
+				// cout<<"nx = "<<nx<<' ';
+				// cout<<"ny = "<<ny<<endl;
+				if(mp[nx][ny] != 0){
+					mp[nx][ny] += w;
+					v.push_back(make_pair(nx,make_pair(ny,mp[nx][ny])));
+					mp[nx][ny] = 0;
 				}
 			}
 		}
-		que.pop();
+	}
+	for (int i=0; i<v.size(); i++){
+		mp[v[i].first][v[i].second.first] = v[i].second.second;
 	}
 }
-
-inline void bfs_e(int s){
-	queue<int> que;
-	que.push(s);
-
-	mx = 0;
-	dis[s] = 1;
-	while(!que.empty()){
-		int &t = que.front();
-		for (int i=0; i<mp[t].size(); i++){
-			if(dis[mp[t][i]] == 0){
-
-				fa[mp[t][i]] = t;
-				dis[mp[t][i]] = dis[t] + 1;
-				que.push(mp[t][i]);
-				if(dis[mp[t][i]] > mx){
-					e = mp[t][i];
-					mx = dis[mp[t][i]];
-				}
-
-			}
-		}
-		que.pop();
-	}
-}
-
-bool bfs_c(int mid){
-	// memset(dis,0x3f,sizeof(dis));
-	for (int i=1; i<=n; i++){
-		dis[i] = 0x3f3f3f3f;
-	}
-
-	dis[s] = 1;
-	dis[e] = 1;
-
-	mid++;
-	queue<int> que;
-	que.push(e);
-	que.push(s);
-
-	int mx = 0;
-	while(!que.empty()){
-		int &t = que.front();
-		for (int i=0; i<mp[t].size(); i++){
-			if(dis[mp[t][i]] > dis[t]+1){
-				// cout<<"mx = "<<mx<<endl;
-				dis[mp[t][i]] = dis[t] + 1;
-				que.push(mp[t][i]);
-				if(dis[mp[t][i]] > mx){
-					mx = dis[mp[t][i]];
-				}
-			}
-		}
-		que.pop();
-	}
-
-	// cout<<"mx = "<<mx<<endl;
-	if(mx > mid)return 0;
-	else return 1;
-}
+//   2 2 0 0 0
+// 2   2 0 0
+//   1     0 0
+// 2   2 0 0
+// 0 2 2 0 0 0
 
 signed main(){
-	// ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
-	int tt;
-	cin>>tt;
-	while(tt--){
-		cin>>n;
-
-		// init
+	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
+	int t;
+	cin>>t;
+	int cnt = 0;
+	while(t--){
+		cnt++;
+		cout<<"Case #"<<cnt<<':'<<endl;
+		long long lans = 0;
+		int n,m;
+		// memset(mp,0,sizeof(mp));
+		vector<pair<int,int>> v;
+		cin>>n>>m;
 		for (int i=1; i<=n; i++){
-			mp[i].clear();
+			int x,y,w;
+			cin>>x>>y>>w;
+			v.push_back(make_pair(x,y));
+			mp[x][y] = w;
 		}
-		v.clear();
-
-		for (int i=1; i<=n-1; i++){
-			int v,u;
-			cin>>v>>u;
-			mp[v].push_back(u);
-			mp[u].push_back(v);
-		}
-
-		if(n == 2){
-			cout<<"0 1 2"<<endl;
-			continue;
-		}
-		s = 0, e = 0;
-
-		mx = 0;
-		// memset(dis,0,sizeof(dis));
-		for (int i=1; i<=n; i++){
-		    dis[i] = 0;
-		}
-		bfs_s(1);
-
-		mx = 0;
-		// memset(dis,0,sizeof(dis));
-		for (int i=1; i<=n; i++){
-		    dis[i] = 0;
-		}
-		bfs_e(s);
-
-		fa[s] = -1;
-		for (int i=e; i!=-1 ; i=fa[i]){
-			v.push_back(i);
-		}
-
-		int l = (int)v.size()/3-2;
-		if(l < 0)l = 1;
-		int r = v.size();
-
-		while(l+1<r){
-			int mid = l+(r-l)/2;
-			int s = v[mid];
-			int e = v[(int)v.size()-mid-1];
-			if(bfs_c(mid)){
-				r = mid;
+		for (int i=1; i<=m; i++){
+			int tp;
+			cin>>tp;
+			if(tp == 1){
+				int x,y,w;
+				cin>>x>>y>>w;
+				x = (lans+x)%6000 + 1;
+				y = (lans+y)%6000 + 1;
+				v.push_back(make_pair(x,y));
+				// cout<<"x = "<<x<<' ';
+				// cout<<"y = "<<y<<endl;
+				mp[x][y] = w;
 			}
-			else{
-				l = mid;
+			if(tp == 2){
+				int x,y;
+				cin>>x>>y;
+				x = (lans+x)%6000 + 1;
+				y = (lans+y)%6000 + 1;
+				// cout<<"x = "<<x<<' ';
+				// cout<<"y = "<<y<<endl;
+				mp[x][y] = 0;
+			}
+			if(tp == 3){
+				int x,y,k,w;
+				cin>>x>>y>>k>>w;
+				x = (lans+x)%6000 + 1;
+				y = (lans+y)%6000 + 1;
+				// cout<<"x = "<<x<<' ';
+				// cout<<"y = "<<y<<endl;
+				solve3(x,y,k,w);
+			}
+			if(tp == 4){
+				int x,y,k;
+				cin>>x>>y>>k;
+				x = (lans+x)%6000 + 1;
+				y = (lans+y)%6000 + 1;
+				// cout<<"x = "<<x<<' ';
+				// cout<<"y = "<<y<<endl;
+				lans = solve4(x, y, k);
+				cout<<lans<<endl;
 			}
 		}
-
-		if(v[v.size()-1-l] == v[l]){
-			cout<<l<<' '<<v[l]<<' '<<v[v.size()-l]<<endl;
+		for (int i=0; i<v.size(); i++){
+			mp[v[i].first][v[i].second] = 0;
 		}
-		else cout<<l<<' '<<v[l]<<' '<<v[v.size()-1-l]<<endl;
 	}
 	return 0;
 }
-=======
-	#include<bits/stdc++.h>
-	#define int long long
-	#define double long double
-	#define endl '\n'
-	using namespace std;
-
-	int n,d;
-	void solve(string &s){
-		queue<int> que[10];
-		for (int i=0; i<s.size(); i++){
-			que[s[i]-'0'].push(i+1);
-		}
-
-		string ans;
-		int lt = 0;
-		int index=0;
-		while(ans.size() < d){
-			// cout<<"ans = "<<ans<<endl;
-			for (int i=9; i>=0; i--){
-				while(!que[i].empty() && (que[i].front() <= lt))que[i].pop();
-				if(!que[i].empty()){
-					if((n-que[i].front()+1) >= ( d-ans.size() )){
-						lt = que[i].front();
-						ans.push_back(s[que[i].front()-1]);
-						que[i].pop();
-						break;
-					}
-				}
-			}
-		}
-		cout<<ans<<endl;
-	}
-
-	signed main(){
-		ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
-		string s;
-		while(cin>>n>>d)
-		{
-			if(n==0&&d==0)break;
-			cin>>s;
-			d = n-d;
-			solve(s);
-		}
-		return 0;
-	}
->>>>>>> a964904fdba2eaa20df1f29f5dfc6506a9171663
