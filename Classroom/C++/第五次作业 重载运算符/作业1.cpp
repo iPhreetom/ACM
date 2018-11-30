@@ -535,16 +535,22 @@ public:
         return out;
     }
 
+
 };
 
 
 
 
 int main(){
-	HugeInt a("1");
-	HugeInt b("111");
-	cin>>a>>b;
-	cout << a*b << endl;
+	HugeInt ans("1");
+	HugeInt index("1");
+	HugeInt one("1");
 
+	for (int i=1; i<=50; i++){
+		ans *= index;
+		index += one;
+	}
+
+	cout<<ans<<endl;
 	return 0;
 }
