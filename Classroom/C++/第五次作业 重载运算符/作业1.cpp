@@ -117,26 +117,34 @@ private:
 			return "1";
 		}
 
-		for (int j=1; j<=10; j++){
-			string temp;
-			add = 0;
+		while(b.size() < a.size()){
+			cnt++;
+			b.push_back('0');
+		}
+
+		while(1){
+			bool sub = 0;
+			string temp ;
+			int add = 0;
 			if(b.size() > a.size() || (a.size() == b.size() && b > a)){
 				if(b.size() == b_len)break;
 				cnt--;
 				b.pop_back();
 			}
-			while(a.size() > b.size() || (a.size() == b.size() && a>=b)){
+			while(a.size() > b.size() || (a.size() == b.size() && a >= b)){
 				a = string_sub(a,b);
 				add++;
+				sub = 1;
 			}
-			for (int i=0; i<cnt; i++){
-				temp.push_back('0');
+			if(sub){
+				temp.push_back(add+'0');
+				for (int i=0; i<cnt; i++){
+					temp.push_back('0');
+				}
+				ret = string_add(ret,temp);
 			}
-			temp.push_back(add+'0');
-			reverse(temp.begin(),temp.end());
-			ret = string_add(ret,temp);
+			if(!sub)break;
 		}
-
 		return ret;
 	}
     string int_to_string(int anthor){
@@ -550,6 +558,11 @@ int main(){
 		ans *= index;
 		index += one;
 	}
+
+	// ans = ans / "2";
+	HugeInt ten("10");
+	HugeInt two("2");
+	cout<<"ten - two = "<<ten - two<<endl;
 
 	cout<<ans<<endl;
 	return 0;
