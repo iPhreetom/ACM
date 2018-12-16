@@ -34,5 +34,28 @@ int insert(int now, int l,int r,int x,int val){
 		return p;
 	}
 	int mid = (l+r)>>1;
-	
+	if(x <= mid){
+		tree[p].lc = insert(tree[now].lc, l, mid, x, val);
+	}
+	else{
+		tree[p].rc = insert(tree[now].rc, mid+1, r, x, val);
+	}
+	tree[p].dat = max(tree[tree[p].lc].dat, tree[tree[p].rc].dat);
+	return p;
 }
+
+// root[i] = insert(root[i-1], 1, n, x, val);
+
+int ask(int p, int l, int r, int ql,int qr){
+	if(l <= ql && r >= qr){
+		return tree[p].dat;
+	}
+
+	int mid = (l + r)/2;
+	int val = 0;
+
+	if(l<=mid)val = max(ask(tree[p].lc, l, mid, ql, qr), val);
+	if(r > mid)val = max(ask(tree[p].rc, mid+1, r, ql, qr), val);
+	return val;
+}
+// ask(1, 1, n, l, r);
