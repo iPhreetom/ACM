@@ -19,7 +19,9 @@ inline bool check(int k){
 
 		}
 	}
-	if()
+	if(){
+		
+	}
 }
 
 signed main(){

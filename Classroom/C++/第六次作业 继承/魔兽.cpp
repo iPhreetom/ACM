@@ -14,6 +14,7 @@ int main(){
 		int arr_red_army[6];
 		string name_blue_army[6];
 		string name_red_army[6];
+		string name_weapon[3];
 		int cnt_blue_army[6];
 		int cnt_red_army[6];
 		memset(cnt_red_army,0,sizeof(cnt_red_army));
@@ -47,6 +48,10 @@ int main(){
 		name_red_army[3] = "ninja";
 		name_red_army[4] = "dragon";
 
+		name_weapon[0] = "sword";
+		name_weapon[1] = "bomb";
+		name_weapon[2] = "arrow";
+
 
 		bool blue_continue = 1,red_continue = 1;
 		int count = 0;
@@ -65,6 +70,30 @@ int main(){
 							<<" born with strength "<<arr_red_army[index_red]
 							<<","<<cnt_red_army[index_red]
 							<<" "<<name_red_army[index_red]<<" in red headquarter"<<endl;
+
+							// dragon
+							if(index_red == 4){
+								cout<<fixed<<setprecision(2)
+									<<"It has a "<<name_weapon[(count+1)%3]
+									<<",and it's morale is "
+									<<(double)M_red/(double)arr_red_army[index_red]<<endl;
+							}
+
+							// lion
+							if(index_red == 1){
+								cout<<"It's loyalty is "<<M_red<<endl;
+							}
+
+							// iceman
+							if(index_red == 0){
+								cout<<"It has a "<<name_weapon[(count+1)%3]<<endl;
+							}
+
+							// ninjia
+							if(index_red == 3){
+								cout<<"It has a "<<name_weapon[(count+1)%3]<<" and a "<<name_weapon[(count+2)%3]<<endl;
+							}
+
 						index_red++;
 						index_red %= 5;
 						break;
@@ -93,6 +122,30 @@ int main(){
 							<<" born with strength "<<arr_blue_army[index_blue]
 							<<","<<cnt_blue_army[index_blue]
 							<<" "<<name_blue_army[index_blue]<<" in blue headquarter"<<endl;
+
+						// dragon
+						if(index_blue == 1){
+							cout<<fixed<<setprecision(2)
+								<<"It has a "<<name_weapon[(count+1)%3]
+								<<",and it's morale is "
+								<<(double)M_blue/(double)arr_blue_army[index_blue]<<endl;
+						}
+
+						// lion
+						if(index_blue == 0){
+							cout<<"It's loyalty is "<<M_blue<<endl;
+						}
+
+						// iceman
+						if(index_blue == 3){
+							cout<<"It has a "<<name_weapon[(count+1)%3]<<endl;
+						}
+
+						// ninjia
+						if(index_blue == 2){
+							cout<<"It has a "<<name_weapon[(count+1)%3]<<" and a "<<name_weapon[(count+2)%3]<<endl;
+						}
+
 
 						index_blue++;
 						index_blue %= 5;
