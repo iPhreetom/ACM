@@ -71,28 +71,28 @@ int main(){
 							<<","<<cnt_red_army[index_red]
 							<<" "<<name_red_army[index_red]<<" in red headquarter"<<endl;
 
-							// dragon
-							if(index_red == 4){
-								cout<<fixed<<setprecision(2)
-									<<"It has a "<<name_weapon[(count+1)%3]
-									<<",and it's morale is "
-									<<(double)M_red/(double)arr_red_army[index_red]<<endl;
-							}
+						// dragon
+						if(index_red == 4){
+							cout<<fixed<<setprecision(2)
+								<<"It has a "<<name_weapon[(count+1)%3]
+								<<",and it's morale is "
+								<<(double)M_red/(double)arr_red_army[index_red]<<endl;
+						}
 
-							// lion
-							if(index_red == 1){
-								cout<<"It's loyalty is "<<M_red<<endl;
-							}
+						// lion
+						if(index_red == 1){
+							cout<<"It's loyalty is "<<M_red<<endl;
+						}
 
-							// iceman
-							if(index_red == 0){
-								cout<<"It has a "<<name_weapon[(count+1)%3]<<endl;
-							}
+						// iceman
+						if(index_red == 0){
+							cout<<"It has a "<<name_weapon[(count+1)%3]<<endl;
+						}
 
-							// ninjia
-							if(index_red == 3){
-								cout<<"It has a "<<name_weapon[(count+1)%3]<<" and a "<<name_weapon[(count+2)%3]<<endl;
-							}
+						// ninjia
+						if(index_red == 3){
+							cout<<"It has a "<<name_weapon[(count+1)%3]<<" and a "<<name_weapon[(count+2)%3]<<endl;
+						}
 
 						index_red++;
 						index_red %= 5;
