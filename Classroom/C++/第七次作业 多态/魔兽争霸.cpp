@@ -41,19 +41,18 @@ public:
 	int attack(){
 
 	}
-	int counterattact(){
+	int counterattact(){acm
 
 	}
 	void bigboom(){
 
 	}
+
 };
 
 double dragon::morale = 0;
 
 void War(){
-	dragon a;
-	hero *p = &a;
 
 }
 
