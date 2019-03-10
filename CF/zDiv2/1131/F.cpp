@@ -61,18 +61,7 @@ signed main(){
 		y = findfather(y);
 		unite(x, y);
 
-		if(que[x].size() <= que[y].size()) {
-			while(!que[x].empty()) {
-				que[y].push(que[x].front());
-				que[x].pop();
-			}
-		}
-		else {
-			while(!que[y].empty()) {
-				que[x].push(que[y].front());
-				que[y].pop();
-			}
-		}
+		-}
 	}
 
 	for (int i=1; i<=n; i++){
