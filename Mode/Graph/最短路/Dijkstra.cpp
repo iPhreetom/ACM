@@ -28,7 +28,7 @@ inline void dijkstra(int s){
 		if(vis[from])continue;
 		vis[from]=1;
 
-		if(d1[from] < p.first)continue;// 此时这个节点被更新了更小的值，舍弃曾经的最小值
+		// if(d1[from] < p.first)continue;// 此时这个节点被更新了更小的值，舍弃曾经的最小值
 
 		for(int i=0;i<a[from].size();i++){
 			int &to = a[from][i].first;
