@@ -4,9 +4,9 @@ void getFail(string &p){
 	f.resize(p.size()+1);
 	f[0] = 0;
 	f[1] = 0;
-	for (int i=1; i<p.size(); i++){
+	for (int i=1; i<p.size(); i++) {
 	    int j = f[i];
-		while(j && p[i]!=p[j])j = f[j];
+		while( j && p[i]!=p[j] )j = f[j];
 		f[i+1] = p[i] == p[j]? j+1 : 0;
 	}
 }

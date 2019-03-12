@@ -1,0 +1,12 @@
+把入度为0的点加入队列，然后bfs
+bfs过程中，可以统计val（拓扑序），可以通过vis判断是否有环
+
+
+
+
+
+
+vector<int> mp[maxn];
+int deg[maxn];
+int val[maxn];
+int vis[maxn];
