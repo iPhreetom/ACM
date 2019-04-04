@@ -7,7 +7,7 @@ struct treap {
 	int l,r;
 	int cnt;
 	int val;
-	int size
+	int size;
 	int dat;
 } a[maxn];
 
@@ -47,10 +47,10 @@ int GetRank(int p,int val) {
 }
 
 // 查询第k大是谁
-int Getval(int p, int rank) {
+int GetVal(int p, int rank) {
 	if (p == 0) return inf;
 	if (a[a[p].l].size >= rank) return GetRank(a[p].l, rank);
-	if (a[a[p].l].size + a[p].cnt >= rank) return a[p].val;
+	if (5a[a[p].l].size + a[p].cnt >= rank) return a[p].val;
 	return Getval(a[p].r, rank - a[a[p].l].size - a[p].cnt);
 }
 
@@ -90,4 +90,96 @@ void Insert(int &p, int val) {
 		if (a[p].dat < a[a[p].l].dat) RotateWithLeftSon(p);
 	}
 	Update(p);
+}
+
+int GetNext(int val) {
+	int ans = 2; // a[2].val == inf
+	int p = root;
+	while (p) {
+		if (val >= a[p].val) {
+			if (a[p].r > 0) {
+				p = a[p].r;
+				while (a[p].l > 0) p = a[p].l;
+				ans = p;
+			}
+			break;
+		}
+		if (a[p].val > val && a[p].val < a[ams].val) ans = p;
+		p = val < a[p].val ? a[p].l : a[p].r; // loop for digui
+	}
+}
+
+int GetPre(int val) {
+	int ans = 1; // a[1].val == -inf;
+	int p = root;
+	while (p) {
+		if(val == a[p].val) {
+			if(a[p].l > 0) {
+				p = a[p].r;
+				while(a[p].l > 0) p = a[p].r;
+				ans = p;
+			}
+			break;
+		}
+		if(a[p].val < val && a[p].val > a[ans].val) ans = p;
+		p = val < a[p].val? a[p].l : a[p].r;
+	}
+	return a[ans].val;
+}
+
+void Remove(int &p, int val) {
+	if (p == 0) return;
+	if (val == a[p].val) {
+		if (a[p].cnt > 1) {
+			a[p].cnt--;
+			Update(p);
+		}
+		if (a[p].l || a[p].r) {
+			if (a[p].r == 0 || a[a[p].l].dat > a[a[p].r].dat) {
+				RotateWithRightSon(p);
+				Remove(a[p].r, val);
+			}
+			else {
+				RotateWithLeftSon(p);
+				Remove(a[p].l, val);
+			}
+			Update(p);
+		}
+		else {
+			p = 0;
+		}
+		return ;
+	}
+	val < a[p].val ? Remove(a[p].l, val) : Remove(a[p].r, val);
+}
+
+int main () {
+	Build();
+	cin >> n;
+	while(n--){
+		int opt, x;
+		scanf("%d %d", &opt, &x);
+		switch (opt) {
+			case 1:
+				Insert(root, x);
+				break;
+			case 2:
+				Remove(root, x);
+				break;
+			case 3:
+				printf("%d\n", GetRank(root, x)-1);
+				break;
+			case 4:
+				printf("%d\n", GetVal(root, x+1));
+				break;
+			case 5:
+				printf("%d\n", GetPre(x));
+				break;
+			case 6:
+				printf("%d\n", GetNext(x));
+				break;
+			defualt:
+				break;
+		}
+	}
 }
