@@ -1,10 +1,16 @@
+// fyt
+#include<bits/stdc++.h>
+#define int long long
+#define endl '\n'
+using namespace std;
+#define INF 1123456
 struct E {
     int to, cp;
     E(int to, int cp): to(to), cp(cp) {}
 };
 
 struct Dinic {
-    static const int M = 1E5 * 5;
+    static const int M = 1E4 * 5;
     int m, s, t;
     vector<E> edges;
     vector<int> G[M];
@@ -66,3 +72,54 @@ struct Dinic {
         return flow;
     }
 } DC;
+
+
+signed main(){
+	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
+	int n,m,p;
+	cin >> n >> m >> p;
+
+	DC.s = 3000;
+	DC.t = 4000;
+	DC.m = 0;
+	for(int i=1; i<=n; i++){
+		int k;
+		cin >> k;
+		int ps = (p+1) + m + i;
+		for (int j=1; j<=k; j++){
+			int u;
+			cin >> u;
+			int eg = (p+1) + u;
+			DC.addedge (eg, ps, 1);
+		}
+		DC.addedge (ps, DC.t, 1);
+	}
+
+	set<int> st;
+	for (int i=1; i<=m; i++){
+		st.insert(i);
+	}
+	for (int i=1; i<=p; i++){
+		int l;
+		cin >> l;
+		for (int j=1; j<=l; j++){
+			int u;
+			cin >> u;
+			int eg = (p+1)+u;
+			DC.addedge (i, eg, 1);
+			st.erase(u);
+		}
+		int r;
+		cin >> r;
+		DC.addedge(DC.s, i, r);
+	}
+
+	for(auto i : st) {
+		int eg = (p+1)+i;
+		DC.addedge (p+1, eg, 1);
+	}
+	DC.addedge (DC.s, p+1, st.size());
+
+	cout << DC.go() << endl;
+	return 0;
+}
