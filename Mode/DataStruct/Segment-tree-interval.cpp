@@ -1,5 +1,12 @@
 // fyt
 #include<bits/stdc++.h>
+
+#define int long long
+#define double long double
+using namespace std;
+
+// fyt
+#include<bits/stdc++.h>
 #define int long long
 #define double long double
 using namespace std;
@@ -68,7 +75,7 @@ void change(int p,int l,int r,int d){
 	int mid = (l(p)+r(p))/2;
 	if(l <= mid)change(p*2,l,r,d);
 	if(r > mid)change(p*2+1,l,r,d);
-	
+
 	sum(p) = sum(2*p)+sum(2*p+1);
 	minn(p) = min(minn(2*p),minn(2*p+1));
 	maxx(p) = max(maxx(2*p),maxx(2*p+1));
