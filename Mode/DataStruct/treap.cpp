@@ -1,6 +1,16 @@
 #include<bits/stdc++.h>
+#define int long long
+#define double long double
+#define endl '\n'
 using namespace std;
 
+<<<<<<< HEAD
+
+signed main() {
+	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
+	
+	return 0;
+=======
 const int maxn = 100010;
 
 struct treap {
@@ -269,4 +279,5 @@ int main () {
 				break;
 		}
 	}
+>>>>>>> b171952b18861a51056c058ba3b76cf59409cedd
 }
