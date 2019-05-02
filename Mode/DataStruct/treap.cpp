@@ -4,69 +4,11 @@
 #define endl '\n'
 using namespace std;
 
-<<<<<<< HEAD
 
 signed main() {
 	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
-	
+
 	return 0;
-=======
-const int maxn = 100010;
-
-struct treap {
-	int l,r;
-	int cnt;
-	int val;
-	int size;
-	int dat;
-} a[maxn];
-
-int root;
-int tot;
-int n;
-int inf = 0x7fffffff;
-
-int New(int val) {
-	a[++tot].val = val;
-	a[tot].dat = rand();
-	a[tot].size = a[tot].cnt = 1;
-	return tot;
-}
-
-void Update(int p){
-	a[p].size = a[a[p].l].size + a[a[p].r].size + a[p].cnt;
-}
-
-
-void Build() {
-	tot = 0;
-	root = 1;
-	New(-inf);
-	New(inf);
-	a[root].r = 2;
-	Update(root);
-}
-
-// 查询值是第几大
-int GetRank(int p,int val) {
-	// defualt p is root
-	if(p == 0) return 0;
-	if(val == a[p].val) return a[a[p].l].size + 1;
-	if(val < a[p].val) return GetRank(a[p].l, val);
-	return GetRank(a[p].r, val) + a[a[p].l].size + a[p].cnt;
-}
-
-// 查询第k大是谁
-int GetVal(int p, int rank) {
-	if (p == 0) return inf;
-	if (a[a[p].l].size >= rank) return GetRank(a[p].l, rank);
-<<<<<<< HEAD
-	if (a[a[p].l].size + a[p].cnt >= rank) return a[p].val;
-	return GetVal(a[p].r, rank - a[a[p].l].size - a[p].cnt);
-=======
-	if (5a[a[p].l].size + a[p].cnt >= rank) return a[p].val;
-	return Getval(a[p].r, rank - a[a[p].l].size - a[p].cnt);
->>>>>>> f835d12ad95cdf2e1a1307104de7cf7185869a5e
 }
 
 void RotateWithLeftSon(int &p) {
@@ -107,7 +49,6 @@ void Insert(int &p, int val) {
 	Update(p);
 }
 
-<<<<<<< HEAD
 // int GetPre(int val) {
 // 	int ans = 1;// a[1].val = -inf
 // 	int p = root;
@@ -173,76 +114,6 @@ int main () {
 		int opt, x;
 		cin >> opt >> x;
 		switch(opt){
-=======
-int GetNext(int val) {
-	int ans = 2; // a[2].val == inf
-	int p = root;
-	while (p) {
-		if (val >= a[p].val) {
-			if (a[p].r > 0) {
-				p = a[p].r;
-				while (a[p].l > 0) p = a[p].l;
-				ans = p;
-			}
-			break;
-		}
-		if (a[p].val > val && a[p].val < a[ams].val) ans = p;
-		p = val < a[p].val ? a[p].l : a[p].r; // loop for digui
-	}
-}
-
-int GetPre(int val) {
-	int ans = 1; // a[1].val == -inf;
-	int p = root;
-	while (p) {
-		if(val == a[p].val) {
-			if(a[p].l > 0) {
-				p = a[p].r;
-				while(a[p].l > 0) p = a[p].r;
-				ans = p;
-			}
-			break;
-		}
-		if(a[p].val < val && a[p].val > a[ans].val) ans = p;
-		p = val < a[p].val? a[p].l : a[p].r;
-	}
-	return a[ans].val;
-}
-
-void Remove(int &p, int val) {
-	if (p == 0) return;
-	if (val == a[p].val) {
-		if (a[p].cnt > 1) {
-			a[p].cnt--;
-			Update(p);
-		}
-		if (a[p].l || a[p].r) {
-			if (a[p].r == 0 || a[a[p].l].dat > a[a[p].r].dat) {
-				RotateWithRightSon(p);
-				Remove(a[p].r, val);
-			}
-			else {
-				RotateWithLeftSon(p);
-				Remove(a[p].l, val);
-			}
-			Update(p);
-		}
-		else {
-			p = 0;
-		}
-		return ;
-	}
-	val < a[p].val ? Remove(a[p].l, val) : Remove(a[p].r, val);
-}
-
-int main () {
-	Build();
-	cin >> n;
-	while(n--){
-		int opt, x;
-		scanf("%d %d", &opt, &x);
-		switch (opt) {
->>>>>>> f835d12ad95cdf2e1a1307104de7cf7185869a5e
 			case 1:
 				Insert(root, x);
 				break;
@@ -250,7 +121,6 @@ int main () {
 				Remove(root, x);
 				break;
 			case 3:
-<<<<<<< HEAD
 				cout << GetRank(root,x)-1 << '\n';
 				break;
 			case 4:
@@ -262,19 +132,6 @@ int main () {
 			case 6:
 				 cout << GetNext(x) << '\n';
 				 break;
-=======
-				printf("%d\n", GetRank(root, x)-1);
-				break;
-			case 4:
-				printf("%d\n", GetVal(root, x+1));
-				break;
-			case 5:
-				printf("%d\n", GetPre(x));
-				break;
-			case 6:
-				printf("%d\n", GetNext(x));
-				break;
->>>>>>> f835d12ad95cdf2e1a1307104de7cf7185869a5e
 			defualt:
 				break;
 		}

@@ -36,12 +36,22 @@ int freehash(string &a){
 	return num;
 }
 
-int free2hash(string &b){
-	int seed = 131313131;
-	int num = 0;
-	for (int i=0; i<b.size(); i++){
-	    num = num*seed + b[i];
-		num %= (int)(1e9+7);
+long long hashb(int x,int y) {
+	long long seed = 131313131LL;
+	long long num = 0;
+	for (int i=x; i<=y; i++){
+		num = num*seed + b[i];
+		num %= (int)mod;
+	}
+	return num;
+}
+
+long long hasha(int x,int y){
+	long long seed = 131313131LL;
+	long long num = 0;
+	for (int i=x; i<=y; i++){
+	    num = num*seed + a[i];
+		num %= (int)mod;
 	}
 	return num;
 }
