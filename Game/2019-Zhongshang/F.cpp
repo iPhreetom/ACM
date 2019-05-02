@@ -27,7 +27,7 @@ signed main(){
 				ans += val;
 			}
 		}
-		
+
 		cout << ans+1 << endl;
 	}
 	return 0;
