@@ -1,8 +1,7 @@
-
-// fyt
 #include<bits/stdc++.h>
 #define int long long
 #define double long double
+#define endl '\n'
 using namespace std;
 
 const int maxn = 112345;
@@ -91,4 +90,21 @@ int ask(int p,int l,int r){
 	if(r > mid)val += ask(p*2+1,l,r);
 
 	return val;
+}
+
+signed main() {
+	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
+	int n;
+	cin >> n;
+	for (int i=1; i<=n; i++) {
+		cin >> a[i];
+	}
+	int m;
+	cin >> m;
+	while(m--){
+		int l,r;
+		cin >> l >> r;
+
+	}
+	return 0;
 }
