@@ -8,14 +8,16 @@ void dfs (int v, int d) {
 		int &u = mp[v][i];
 		if(!vis[u]) {
 			vis[u] = 1;
+			dis[u] = d+1;
 			dfs(u, d+1);
 		}
 	}
 }
 
-int diameter () {
-	// memset(dis,0,sizeof(dis));
-	// memset(vis,0,sizeof(vis));
+int getcenter () {
+	memset(dis,0,sizeof(dis));
+	memset(vis,0,sizeof(vis));
+	dis[1] = 1;
 	dfs(1, 1);
 
 	int mx = 0;
@@ -29,6 +31,7 @@ int diameter () {
 
 	memset(dis,0,sizeof(dis));
 	memset(vis,0,sizeof(vis));
+	dis[node] = 1;
 	dfs(node, 1);
 	mx = 0;
 	for (int i=1; i<=n; i++){
@@ -37,5 +40,6 @@ int diameter () {
 			mx = dis[i];
 		}
 	}
-	return mx;
+	vector<int> lis;
+
 }
