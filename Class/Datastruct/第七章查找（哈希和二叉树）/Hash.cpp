@@ -35,7 +35,7 @@ struct line_hash_map {
 		int val = s%20;
 		while (!lis[val]) {
 			if (s == lis[val]) return true;
-			else {
+ 			else {
 				val ++;
 				val %= 20;
 			}

@@ -56,7 +56,7 @@ struct Tree {
 					if (p->rt == NULL) {
 						p->rt = new Node(s);
 					}
-					else {
+						else {
 						cnt++;
 						p = p->rt;
 					}
