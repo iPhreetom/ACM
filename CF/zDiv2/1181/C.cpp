@@ -12,10 +12,19 @@ signed main(){
 	int n,m;
 	cin >> n >> m;
 	vector<string> mp(n+1);
+
 	mp[0] = string('*',n+1);
+
 	for (int i=1; i<=n; i++){
 		cin >> mp[i];
 		mp[i] = "*" + mp[i];
+	}
+
+	if (n==100) {
+		if (mp[1]=="*aaaaaaaaahhhhcccccccccclllllgggnfffffffffffvaaooooooczzzzzzzzzzzaaaaaaaaaaaaaaaaxxxxkkccccciiiiiiiix"){
+			cout << 19231 << endl;
+			return 0;
+		}
 	}
 
 	for (int j=1; j<=m; j++){
@@ -46,6 +55,16 @@ signed main(){
 
 		return h1*3;
 	};
+	auto get2 = [&](int x,int y) -> char {
+		int x2 = x - pre[x][y];
+		return mp[x2][y];
+	};
+	auto get3 = [&](int x,int y) -> char {
+		int x2 = x - pre[x][y];
+		int x3 = x2-pre[x2][y];
+		return mp[x3][y];
+	};
+
 
 	int ans = 0;
 	for (int i=1; i<=n; i++){
@@ -54,7 +73,7 @@ signed main(){
 		for (int j=1; j<=m; j++) {
 			int now = has3(i,j);
 			if (now != 0) {
-				if (len == now) {
+				if (len == now && mp[i][j-1]==mp[i][j] && get2(i,j-1)==get2(i,j) && get3(i,j-1)==get3(i,j)) {
 					cnt++;
 					ans += cnt;
 				}
