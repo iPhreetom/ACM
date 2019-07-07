@@ -1,7 +1,7 @@
-// const int maxn = 212345;
+const int maxn = 212345;
 // vector<int> mp[maxn];
-// int dis[maxn];
-// bool vis[maxn];
+int dis[maxn];
+bool vis[maxn];
 
 void dfs (int v, int d) {
 	for (int i=0; i<mp[v].size(); i++){
