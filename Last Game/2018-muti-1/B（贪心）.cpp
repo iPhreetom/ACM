@@ -40,16 +40,26 @@ signed main() {
 			// 若a左边多，b右边多，a放左边
 			// 如果a的右边多，b也右边多，谁左边多，谁就放左边
 			// 如果a的右边多，b的左边多，b放在左边
-			if (a.first >= a.second) {
-				if (b.first >= b.second) return a.second <= b.second;
+
+			// 因为相当于重载小于号
+			// 所以，a在b的左边，当且近当a严格小于b
+			if (a.first > a.second) {
+				if (b.first > b.second) return a.second < b.second;
 				else return true; // a<b
 			}
-			else {
-				if (b.second > b.first) return a.first >= b.first;
+			else { // a.first <= a.second
+				if (b.second >= b.first) return a.first > b.first;
 				else return false; // a<b
 			}
+
+			// #define l first
+			// #define r second
+			//
+			// if(a.l > a.r)    //判断'('大于')'时，如果a，b都满足，则谁的')'小谁排前面，否则a排前面
+			// 	return b.l > b.r? a.r<b.r:true;
+			// return b.l <= b.r?a.l>b.l:false;
 		};
-		sort(p.begin(),p.end());
+		sort(p.begin(),p.end(),cmp);
 		int cnt = 0;
 		for (int i=0; i<p.size(); i++) {
 			ans += min(cnt,p[i].second);
