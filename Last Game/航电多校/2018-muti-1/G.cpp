@@ -8,18 +8,19 @@ int a[2123456];
 
 signed main() {
 	ios::sync_with_stdio(false),cin.tie(0),cout.tie(0);
-	a[1] = 1;
-	a[2] = 1;
-	map<int,int> mp;
-	for (int i=3; i<=300; i++) {
-		a[i] = a[i-a[i-1]] + a[i-1-a[i-2]];
-		cout << a[i] << ' ';
-		mp[ a[i] ] ++;
-	}
-	cout << endl << endl;
-	for (auto i:mp){
-		cout << i.first << " -> "  <<  i.second << endl;
-	}
+	// a[1] = 1;
+	// a[2] = 1;
+	// map<int,int> mp;
+	// for (int i=3; i<=300; i++) {
+	// 	a[i] = a[i-a[i-1]] + a[i-1-a[i-2]];
+	// 	cout << a[i] << ' ';
+	// 	mp[ a[i] ] ++;
+	// }
+	// cout << endl << endl;
+	// cout << 1 << ' ';
+	// for (auto i:mp){
+	// 	cout  <<  i.second << ' ';
+	// }
 	// int cnt = 1;
 	// vector<int> v;
 	// vector<int> lis;
