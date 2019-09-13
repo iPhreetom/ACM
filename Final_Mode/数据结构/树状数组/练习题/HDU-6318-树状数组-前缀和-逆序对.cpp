@@ -37,12 +37,10 @@ void change(int p,int l,int r,int d){
 	int mid = (l(p)+r(p))/2;
 	if(l <= mid)change(p*2,l,r,d);
 	if(r > mid)change(p*2+1,l,r,d);
-
 	sum(p) = sum(2*p)+sum(2*p+1);
 }
 
 int ask(int p,int l,int r){
-
 	if(l <= l(p) && r >= r(p)){
 		return sum(p);
 	}

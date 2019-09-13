@@ -23,10 +23,12 @@ bool dfs(int *adj, int total, int cnt)
 		for(int j = i+1; j < total; ++j)
 		if(mp[adj[i]][adj[j]]) t[k++] = adj[j];
 		//扫描与u相连的顶点中与当前要选中的adj[i]相连的顶点adj[j]并存储到数组t[]中，数量为k
+		
 		if(dfs(t, k, cnt+1)) return true;
 	}
 	return false;
 }
+
 int MaximumClique()
 {
 	int adj[maxn], k;

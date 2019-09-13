@@ -12,7 +12,7 @@
 - [ ] 权值线段树
 - [ ] 主席树
 - [ ] splay
-- [ ] 莫队
+- [x] 莫队
 - [ ] CDQ分治
 - [ ] 笛卡尔树
 - [ ] 线段树合并
@@ -38,10 +38,10 @@
 ---
 ## 数学
 - [ ] 逆元，快速幂
-- [ ] 矩阵快速幂
+- [x] 矩阵快速幂
 - [ ] 高斯消元
 - [x] 线性基
-- [ ] 单纯性
+- [ ] 单纯形
 - [ ] 容斥定理
 - [ ] 生成函数
 - [ ] EXGCD
@@ -73,226 +73,31 @@
 - [ ] 多边形
 - [ ] 圆
 - [ ] 三维几何
----
 
-
-# 数据结构
-## 并查集
-``` c++
-#include<bits/stdc++.h>
-using namespace std;
-
-const int maxn = 1e5; // temp
-
-int p[maxn];
-
-void init() {
-	for (int i=0; i<maxn; i++){
-		p[i] = i;
-	}
-}
-
-int getparent(int v) {
-	int root = v;
-	while (p[root] != root) {
-		root = p[root];
-	}
-	while (p[v] != v) {
-		int temp = p[v];
-		p[v] = root;
-		v = temp;
-	}
-	return root;
-}
-
-void unite(int u, int v) {
-	v = getparent(v);
-	p[v] = getparent(u);
-}
-
-bool ifsame(int u,int v) {
-	return getparent(u) == getparent(v);
-}
-```
-### 学习笔记
-- poj 食物链 分析
-  - 通过分析题目里的相对关系，可以把一个动物的关系分成三类，我自己，吃我的，被我吃的。然后每次，合并和判断的时候，维护这三个关系就好了。可以用三倍的数组实现，也可以通过结构体实现。
-- poj Ubi 宗教信仰 模板题
-  - 通过unite来合并学生群体
-  - 通过set或者一个桶排序类似物，实现统计有多少个不同的数字
-- poj 修电脑 暴力 建模
-  - n^n的把修好的电脑并在一起
-- poj 非典传播 模板题
-  - 如果分成多个组（连通块）
-  - 那么，每个连通块内的元素unite一下
-  - 就可以得到最终有多少个连通块
-- hdu 判断树 树的性质
-  - 树只有一个入度为0的点
-  - 边数等于点数-1（可以通过这个判断：是否有环，是否连通）
-  - ​
----
-## 树状数组
-```c++
-// 支持第k大的BIT
-// 下标从1开始
-struct Tbit {
-    int size;
-    ll t[MAXN];
-
-    int lowbit(int x) { return x & (-x); }
-
-    void init(int sz) {
-        size = sz + 1;
-        memset(t, 0, (sz + 2) * sizeof(ll));
-    }
-
-    void add(int p, ll x) {
-        if (p <= 0) return;
-        for (; p <= size; p += lowbit(p)) t[p] += x;
-    }
-
-    ll get(int p) {
-        ll sum = 0;
-        for (; p > 0; p -= lowbit(p)) sum += t[p];
-        return sum;
-    }
-
-    void update(int p, ll x) { add(p, x - query(p, p)); }
-    ll query(int l, int r) { return get(r) - get(l - 1); }
-
-    int kth(ll k) {
-        int p = 0;
-        for (int i = 20; i >= 0; i--) {
-            int p_ = p + (1 << i);
-            if (p_ <= size && t[p_] < k) {
-                k -= t[p_];
-                p = p_;
-            }
-        }
-        return p + 1;
-    }
-};
-```
-### 学习笔记
-- hdu6318 树状数组求逆序对
-	- 树状数组的每一个get，得到的都是前缀和
-	- 所以可以有两种方法求出逆序对，从前往后query和直接从后往前get
----
-## 区间修改线段树
-```c++
-#define ls (p<<1)
-#define rs ((p<<1)+1)
-#define mid ((l+r)>>1)
-const int maxn = 3e5+7;
-int a[maxn];
-int ql,qr,x;
-
-struct node{
-    int mn,add;
-}tree[maxn*4];
-
-inline void pushdown(int p) {
-    tree[ls].mn += tree[p].add;
-    tree[rs].mn += tree[p].add;
-    tree[ls].add += tree[p].add;
-    tree[rs].add += tree[p].add;
-    tree[p].add = 0;
-}
-
-inline void pushup(int p) {
-    tree[p].mn = min(tree[ls].mn,tree[rs].mn);
-}
-
-void build(int p,int l,int r) {
-    if (l == r) {
-        tree[p].mn = a[r];
-        return;
-    }
-    build(ls,l,mid);
-    build(rs,mid+1,r);
-    pushup(p);
-}
-
-void update(int p,int l, int r) {
-    if (ql <= l && r <= qr) {
-        tree[p].mn += x;
-		tree[p].add += x;
-		return ;
-    }
-    if (tree[p].add != 0) pushdown(p);
-    if (ql <= mid) update(ls,l,mid);
-    if (qr >= mid+1) update(rs,mid+1,r);
-    pushup(p);
-}
-
-int query(int p, int l, int r) {
-    if (ql <= l && r <= qr) {
-        return tree[p].mn;
-    }
-    if (tree[p].add) pushdown(p);
-    int num = 2e18;
-    if (ql <= mid) num = min(num, query(ls, l, mid));
-    if (qr >= mid+1) num = min(num, query(rs, mid+1, r));
-    return num;
-}
-```
-### 学习笔记
-- HDU-6315-线段树-区间暴力修改-懒标记、
-    - 线段树减少常数的方法：
-        -用if减少少递归
-        - 把ql和qr变成全局变量
-    - 线段树注意事项：update的时候，留意return的位置，return即表示剪枝
----
-
-
-# 数学
-## 快速幂 逆元 （待做题）
-``` c++
-// 注意 b = 0, MOD = 1 的情况
-typedef long long ll
-ll powMod(ll a, ll b) {
-    ll ans = 1;
-    for (a %= MOD; b; b >>= 1) {
-        if (b & 1) ans = ans * a % MOD;
-        a = a * a % MOD;
-    }
-    return ans;
-}
-
-// 模数爆int时使用，带取模的乘法
-ll mul(ll a, ll b) {
-    ll ans = 0;
-    for (a %= MOD; b; b >>= 1) {
-        if (b & 1) ans = (ans + a) % MOD;
-        a = (a << 1) % MOD;
-    }
-    return ans;
-}
-
-// O(1) - 魔法，需要测试
-ll mul(ll a, ll b) {
-    return (ll)(__int128(a) * b % MOD);
+--- 
+## 动态规划
+    return (int)(__int128(a) * b % MOD);
 }
 
 
 
-ll inv(ll x) { return powMod(x, MOD - 2); }
+int inv(int x) { return powMod(x, MOD - 2); }
 // EXGCD
 // gcd(a, p) = 1时有逆元
-ll inv(ll a, ll p) {
-    ll x, y;
-    ll d = exgcd(a, p, x, y);
+int inv(int a, int p) {
+    int x, y;
+    int d = exgcd(a, p, x, y);
     if (d == 1) return (x % p + p) % p;
     return -1;
 }
 
 // 逆元打表
-ll inv[MAXN];
+int inv[MAXN];
 
 void initInv() {
     inv[1] = 1;
     for (int i = 2; i < MAXN - 5; i++) {
-        inv[i] = 1LL * (MOD - MOD / i) * inv[MOD % i] % MOD;
+        inv[i] = 1int * (MOD - MOD / i) * inv[MOD % i] % MOD;
     }
 }
 ```
@@ -375,7 +180,195 @@ int ask(int l,int r) {
 
 ```
 ## 最大流
+```c++
+struct E {
+    int to, cp;
+    E(int to, int cp): to(to), cp(cp) {}
+};
 
+struct Dinic {
+    static const int M = 1E5 * 5;
+    int m, s, t;
+    vector<E> edges;
+    vector<int> G[M];
+    int d[M];
+    int cur[M];
+
+    void init(int n, int s, int t) {
+        this->s = s; this->t = t;
+        for (int i = 0; i <= n; i++) G[i].clear();
+        edges.clear(); m = 0;
+    }
+
+    void addedge(int u, int v, int cap) {
+        edges.emplace_back(v, cap);
+        edges.emplace_back(u, 0);
+        G[u].push_back(m++);
+        G[v].push_back(m++);
+    }
+
+    bool BFS() {
+        memset(d, 0, sizeof d);
+        queue<int> Q;
+        Q.push(s); d[s] = 1;
+        while (!Q.empty()) {
+            int x = Q.front(); Q.pop();
+            for (int& i: G[x]) {
+                E &e = edges[i];
+                if (!d[e.to] && e.cp > 0) {
+                    d[e.to] = d[x] + 1;
+                    Q.push(e.to);
+                }
+            }
+        }
+        return d[t];
+    }
+
+    int DFS(int u, int cp) {
+        if (u == t || !cp) return cp;
+        int tmp = cp, f;
+        for (int& i = cur[u]; i < G[u].size(); i++) {
+            E& e = edges[G[u][i]];
+            if (d[u] + 1 == d[e.to]) {
+                f = DFS(e.to, min(cp, e.cp));
+                e.cp -= f;
+                edges[G[u][i] ^ 1].cp += f;
+                cp -= f;
+                if (!cp) break;
+            }
+        }
+        return tmp - cp;
+    }
+
+    int go() {
+        int flow = 0;
+        while (BFS()) {
+            memset(cur, 0, sizeof cur);
+            flow += DFS(s, INF);
+        }
+        return flow;
+    }
+} DC;
+```
+## 费用流
+``` c++
+// 内置的全局变量: 点个数n
+#include<cstring>
+#include<vector>
+#include<queue>
+#include<algorithm>
+#include<iostream>
+
+const int maxn = 4020;
+const int INF = 0x3f3f3f3f;
+using namespace std;
+int n;
+typedef struct ss {
+    int to, cap, cost, rev;
+    ss(int a, int b, int c, int d) {
+        to = a;   cap = b;
+        cost = c; rev = d;
+    }
+} st;
+
+typedef pair<int, int> P;
+int h[maxn], dis[maxn];
+int pv[maxn], pe[maxn];
+vector<st> G[maxn];
+
+void init() {
+    for(int i = 0; i < maxn; i++) {
+        G[i].clear();
+        h[i] = 0;
+    }
+}
+
+void add(int f, int t, int c, int cost) {
+    G[f].push_back(st(t, c, cost, G[t].size()));
+    G[t].push_back(st(f, 0, -cost, G[f].size() - 1));
+}
+
+int mincostflow(int s, int t, int &f) {
+    int res = 0;
+    while(f > 0) {
+        priority_queue<P, vector<P>, greater<P> > q;
+        q.push(P(0, s));
+        fiint(dis, dis + maxn, INF);
+        dis[s] = 0;
+        while(!q.empty()) {
+            P p = q.top(); q.pop();
+            int l = p.first, v = p.second;
+            if(dis[v] < l) continue;
+            for(int i = 0; i < G[v].size(); i++) {
+                st &e = G[v][i];
+                if(e.cap > 0 && dis[e.to] > dis[v] + e.cost + h[v] - h[e.to]) {
+                    dis[e.to] = dis[v] + e.cost + h[v] - h[e.to];
+                    pv[e.to] = v;
+                    pe[e.to] = i;
+                    q.push(P(dis[e.to], e.to));
+                }
+            }
+        }
+        if(dis[t] == INF) break;
+        for(int v = 0; v < n + 2; v++) h[v] += dis[v];
+        int d = f;
+        for(int u = t; u != s; u = pv[u]) {
+            d = min(d, G[pv[u]][pe[u]].cap);
+        }
+        f -= d;
+        res += d * h[t];
+        for(int u = t; u != s; u = pv[u]) {
+            st &e = G[pv[u]][pe[u]];
+            e.cap -= d;
+            G[u][e.rev].cap += d;
+        }
+    }
+    return res;
+}
+
+
+signed main() {
+	ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    #define endl '\n'
+
+	// int res = maxn-1;
+	// int s = maxn-2;
+	// int t = maxn-3;
+	int T;
+	cin >> T;
+	while(T--){
+		int k;
+		cin >> n >> k;
+		init();
+
+		vector<int> v(n+1);
+		for (int i=1; i<=n; i++){
+			cin>>v[i];
+		}
+		int res = 2*n+1;
+		int s = 2*n+2;
+		int t = 2*n+3;
+		add(res, s, k, 0);
+		for (int i=1; i<=n; i++){
+			add(i, i+n, 1, -v[i]);
+			add(s, i, 1, 0);
+			add(i+n, t, 1, 0);
+		    for (int j=i+1; j<=n; j++){
+				if (v[i] <= v[j]) {
+					add(i+n, j, 1, 0);
+				}
+		    }
+		}
+		n = n*2+10;
+		int f = k;
+		cout << -mincostflow(res,t,f) << endl;
+	}
+    return 0;
+}
+
+```
 ---
 
 # 字符串
@@ -489,7 +482,7 @@ struct Palindrome_Tree
     {
         for (int i=tot-1;i>=0;i--)
         {
-            // ans=max(ans,1ll*cnt[i]*len[i]);
+            // ans=max(ans,1int*cnt[i]*len[i]);
 			// cout << cnt[i]*len[i] << endl;
 			mp[len[i]]+=cnt[i];
             cnt[fail[i]]+=cnt[i];
@@ -526,4 +519,4 @@ void manacher(const string& s, vector<int>& d) {
 }
 ```
 ctrl k 0 (-level) show outline
-ctrl k j 
+ctrl k j
